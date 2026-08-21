@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
@@ -17,14 +17,22 @@ export type SwipeDeckCardHandle = {
 
 type SwipeDeckCardProps = {
   persona: Persona;
+  isFront: boolean;
   onSwiped: (direction: SwipeDirection) => void;
   onDragDirectionChange: (direction: DragActionDirection) => void;
 };
 
+// Always renders the identical GestureDetector > Animated.View > PersonaCard
+// tree regardless of `isFront` — only the gesture's `enabled` flag and the
+// animated transform values differ. A card promoted from the back slot to
+// the front slot is the *same* React element (matched by key in a keyed
+// list, see app/index.tsx), so this never remounts its Image/Text — that
+// remount, when it crossed between two differently-shaped component trees,
+// was the source of the avatar "flash" on button-triggered swipes.
 export const SwipeDeckCard = forwardRef<SwipeDeckCardHandle, SwipeDeckCardProps>(
-  function SwipeDeckCard({ persona, onSwiped, onDragDirectionChange }, ref) {
+  function SwipeDeckCard({ persona, isFront, onSwiped, onDragDirectionChange }, ref) {
     const { panGesture, cardStyle, nahStampStyle, yeahStampStyle, swipeLeft, swipeRight } =
-      useSwipeGesture({ onSwiped, onDragDirectionChange });
+      useSwipeGesture({ onSwiped, onDragDirectionChange, enabled: isFront });
 
     useImperativeHandle(ref, () => ({ swipeLeft, swipeRight }), [swipeLeft, swipeRight]);
 
@@ -44,14 +52,6 @@ export const SwipeDeckCard = forwardRef<SwipeDeckCardHandle, SwipeDeckCardProps>
     );
   },
 );
-
-export function StaticSwipeCard({ persona }: { persona: Persona }) {
-  return (
-    <View style={styles.card} pointerEvents="none">
-      <PersonaCard persona={persona} />
-    </View>
-  );
-}
 
 const styles = StyleSheet.create({
   card: {

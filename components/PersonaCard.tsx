@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { radius, sizes, spacing, typography } from '../constants/tokens';
 import { useTheme } from '../hooks/useTheme';
 import type { Persona } from '../types/persona';
-import { VoiceIcon } from './VoiceIcon';
+import { PersonaVoice } from './PersonaVoice';
 
 type PersonaCardProps = {
   persona: Persona;
@@ -25,19 +25,7 @@ export function PersonaCard({ persona }: PersonaCardProps) {
 
       <Text style={[styles.title, { color: colors.textHeading }]}>{persona.name}</Text>
 
-      <View style={styles.voiceRow}>
-        <View
-          style={[
-            styles.voiceCircle,
-            { backgroundColor: colors.surfaceVoice, borderColor: colors.borderCard },
-          ]}
-        >
-          <VoiceIcon size={sizes.voiceIcon} color={colors.textHeading} />
-        </View>
-        <Text style={[styles.voiceLabel, { color: colors.textBody }]}>
-          {persona.voiceLabel}
-        </Text>
-      </View>
+      <PersonaVoice persona={persona} />
 
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: colors.textHeading }]}>
@@ -82,25 +70,6 @@ const styles = StyleSheet.create({
     lineHeight: typography.personaTitle.lineHeight,
     letterSpacing: typography.personaTitle.letterSpacing,
     textAlign: 'center',
-  },
-  voiceRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-  },
-  voiceCircle: {
-    width: sizes.voiceCircle,
-    height: sizes.voiceCircle,
-    borderRadius: sizes.voiceCircle / 2,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  voiceLabel: {
-    fontFamily: typography.personaVoiceLabel.fontFamily,
-    fontSize: typography.personaVoiceLabel.fontSize,
-    lineHeight: typography.personaVoiceLabel.lineHeight,
-    letterSpacing: typography.personaVoiceLabel.letterSpacing,
   },
   section: {
     width: '100%',

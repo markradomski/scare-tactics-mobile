@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { SwipeActions } from '../components/SwipeActions';
 import type { SwipeDeckCardHandle } from '../components/SwipeDeckCard';
-import { StaticSwipeCard, SwipeDeckCard } from '../components/SwipeDeckCard';
+import { SwipeDeckCard } from '../components/SwipeDeckCard';
 import { spacing } from '../constants/tokens';
 import { personas } from '../data/personas';
 import type { DragActionDirection, SwipeDirection } from '../hooks/useSwipeGesture';
@@ -27,17 +27,27 @@ export default function SwipeBrowse() {
     setDragDirection(null);
   };
 
+  // Rendered as a single keyed array (back first, front last so it stays on
+  // top) so React's keyed reconciliation tracks each persona's card across
+  // the front/back role change as a prop update — never an unmount/remount.
+  const visibleCards = back.id === front.id ? [front] : [back, front];
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.deck}>
-        <StaticSwipeCard key={back.id} persona={back} />
-        <SwipeDeckCard
-          key={front.id}
-          ref={frontCardRef}
-          persona={front}
-          onSwiped={handleSwiped}
-          onDragDirectionChange={setDragDirection}
-        />
+        {visibleCards.map((persona) => {
+          const isFront = persona.id === front.id;
+          return (
+            <SwipeDeckCard
+              key={persona.id}
+              ref={isFront ? frontCardRef : undefined}
+              persona={persona}
+              isFront={isFront}
+              onSwiped={handleSwiped}
+              onDragDirectionChange={setDragDirection}
+            />
+          );
+        })}
       </View>
 
       <View style={styles.actions}>

@@ -21,12 +21,14 @@ type UseSwipeGestureOptions = {
   onSwiped: (direction: SwipeDirection) => void;
   onDragDirectionChange?: (direction: DragActionDirection) => void;
   threshold?: number;
+  enabled?: boolean;
 };
 
 export function useSwipeGesture({
   onSwiped,
   onDragDirectionChange,
   threshold = 120,
+  enabled = true,
 }: UseSwipeGestureOptions) {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
@@ -51,7 +53,7 @@ export function useSwipeGesture({
   const commit = (direction: SwipeDirection) => {
     'worklet';
     const toX = direction === 'right' ? 600 : -600;
-    translateX.value = withTiming(toX, { duration:400 }, (finished) => {
+    translateX.value = withTiming(toX, { duration: 400 }, (finished) => {
       if (finished) {
         runOnJS(triggerSwiped)(direction);
       }
@@ -61,6 +63,7 @@ export function useSwipeGesture({
   const panGesture = useMemo(
     () =>
       Gesture.Pan()
+        .enabled(enabled)
         .onUpdate((event) => {
           translateX.value = event.translationX;
           translateY.value = event.translationY;
@@ -76,7 +79,7 @@ export function useSwipeGesture({
           }
         }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [enabled],
   );
 
   const cardStyle = useAnimatedStyle(() => {

@@ -5,6 +5,7 @@ const darkColors = {
   borderCard: '#2e303a',
   borderDefault: '#2e303a',
   borderAvatarRing: '#3f4350',
+  borderVoiceHover: '#454857',
   textHeading: '#f3f4f6',
   textBody: '#9ca3af',
   textAccent: '#60a5fa',
