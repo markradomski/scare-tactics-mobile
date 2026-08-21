@@ -8,6 +8,8 @@ export const personas: Persona[] = [
     styleName: 'Brutal Honesty & Zero-tolerance',
     description:
       "This coach doesn't negotiate, doesn't ask how you're feeling, doesn't care about your context. He will challenge you to push beyond comfort zones to achieve your goals - whether you like it or not.",
+    matchMessage:
+      "Congratulations, maggot. You've earned yourself an accountability buddy. Don't make me regret it.",
   },
   {
     id: 'bill-burr',
@@ -16,6 +18,8 @@ export const personas: Persona[] = [
     styleName: 'Sarcastic Rants & Tough Love',
     description:
       'This coach will repeat your excuses back to you until you hear how ridiculous they sound. Expect exasperated rants, zero patience for self-pity, and the rare compliment buried under three layers of sarcasm.',
+    matchMessage:
+      "Great, now I've got to listen to your excuses too. Lucky me. Let's get this over with.",
   },
   {
     id: 'catholic-guilt',
@@ -24,6 +28,8 @@ export const personas: Persona[] = [
     styleName: 'Shame, Sighs & Redemption',
     description:
       "This coach never raises his voice - he doesn't have to. He simply reminds you of everyone you're letting down, mentions the sacrifices made on your behalf, and lets the guilt do the heavy lifting until you get back to work.",
+    matchMessage:
+      "Well. I suppose this is what you wanted. I just hope your mother lives to see you follow through.",
   },
   {
     id: 'mother-in-law',
@@ -32,6 +38,7 @@ export const personas: Persona[] = [
     styleName: 'Passive-aggression & Pointed Comparisons',
     description:
       "This coach wraps every criticism in a compliment and every compliment in a warning. You'll hear how well everyone else is doing and get gentle questions about your life choices - until you finish the workout just to prove her wrong.",
+    matchMessage: "Oh, you picked me? How lovely. I'm sure you'll do just fine, dear. Eventually.",
   },
   {
     id: 'retardmaxx',
@@ -40,6 +47,7 @@ export const personas: Persona[] = [
     styleName: 'Unhinged Maximalism & Zero Nuance',
     description:
       'This coach has two settings: max and more. No pacing, no moderation, no thinking twice - every session is full-send chaos delivered with total confidence. Somehow you always end up doing more than you planned.',
+    matchMessage: "LET'S GOOOO. Matched. Locked in. No brakes. We're doing this.",
   },
   {
     id: 'phil-stutz',
@@ -49,6 +57,7 @@ export const personas: Persona[] = [
     styleName: 'Blunt Compassion & Radical Action',
     description:
       "This coach won't spend an hour on your childhood - he names the part of you that's sabotaging you and hands you something to do about it right now. Expect pain reframed as the doorway, excuses cut off mid-sentence, and a gravelly reminder that every rep counts even when it feels pointless.",
+    matchMessage: "Good. Now stop thinking and start moving. That's the whole program.",
   },
   {
     id: 'tiger-mom',
@@ -57,6 +66,7 @@ export const personas: Persona[] = [
     styleName: 'Relentless Standards & Earned Approval',
     description:
       "This coach doesn't congratulate you on second place - she asks what went wrong. Your best effort is treated as the baseline, there's always someone else's child doing more, and talent is dismissed as the excuse people use for not practising. Approval exists, but you'll have to earn it twice.",
+    matchMessage: "Fine. You've matched with me. Now prove it was the right decision.",
   },
   {
     id: 'malcolm-tucker',
@@ -65,6 +75,7 @@ export const personas: Persona[] = [
     styleName: 'Incandescent Rage & Impossible Deadlines',
     description:
       "This coach communicates entirely in ultimatums, delivered at volume, with profanity inventive enough that you'll almost admire it. Every task is already late, every excuse is treated as a career-ending admission, and the sheer terror of disappointing him will move you faster than any pep talk ever managed.",
+    matchMessage: "Congratulations. You've matched with disappointment incarnate. Let's begin.",
   },
   {
     id: 'pennywise',
@@ -73,5 +84,7 @@ export const personas: Persona[] = [
     styleName: 'Gleeful Menace & Weaponised Fear',
     description:
       "This coach already knows exactly what frightens you - he's been paying attention. Expect a sing-song carnival voice, a grin that never quite reaches the eyes, and encouragement pitched somewhere between a party invitation and a threat. Skip a session and he'll remind you that everything floats down here, your excuses included.",
+    matchMessage:
+      "Ohhh, we're going to have so much fun together. I can already smell your excuses.",
   },
 ];

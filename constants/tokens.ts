@@ -2,6 +2,7 @@ const darkColors = {
   background: '#16171d',
   surfaceCard: '#1f2028',
   surfaceVoice: '#404353',
+  surfaceMessage: '#1e2740',
   borderCard: '#2e303a',
   borderDefault: '#2e303a',
   borderAvatarRing: '#3f4350',
@@ -9,6 +10,7 @@ const darkColors = {
   textHeading: '#f3f4f6',
   textBody: '#9ca3af',
   textAccent: '#60a5fa',
+  textOnAccent: '#17171c',
   actionNah: '#fd5068',
   actionYeah: '#2ecc8f',
 } as const;
@@ -38,6 +40,8 @@ export const radius = {
   action: 28,
   voice: 19,
   stamp: 12,
+  message: 12,
+  matchCta: 16,
 } as const;
 
 export const sizes = {
@@ -46,6 +50,8 @@ export const sizes = {
   voiceCircle: 38,
   actionButton: 56,
   actionGap: 36,
+  matchAvatar: 220,
+  matchAvatarRing: 232,
 } as const;
 
 export const typography = {
@@ -83,5 +89,20 @@ export const typography = {
     fontFamily: 'Geist_600SemiBold',
     fontSize: 34,
     letterSpacing: 3,
+  },
+  matchTitle: {
+    fontFamily: 'Geist_600SemiBold',
+    fontSize: 34,
+    letterSpacing: 0,
+  },
+  matchSubtitle: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 16,
+    letterSpacing: 0,
+  },
+  matchCta: {
+    fontFamily: 'Geist_600SemiBold',
+    fontSize: 17,
+    letterSpacing: 0,
   },
 } as const;

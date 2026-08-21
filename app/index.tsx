@@ -5,21 +5,27 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { SwipeActions } from '../components/SwipeActions';
 import type { SwipeDeckCardHandle } from '../components/SwipeDeckCard';
 import { SwipeDeckCard } from '../components/SwipeDeckCard';
+import { SwipeMatch } from '../components/SwipeMatch';
 import { spacing } from '../constants/tokens';
 import { personas } from '../data/personas';
 import type { DragActionDirection, SwipeDirection } from '../hooks/useSwipeGesture';
 import { useTheme } from '../hooks/useTheme';
+import type { Persona } from '../types/persona';
 
 export default function SwipeBrowse() {
   const { colors } = useTheme();
   const [queue, setQueue] = useState(personas);
   const [dragDirection, setDragDirection] = useState<DragActionDirection>(null);
+  const [matchedPersona, setMatchedPersona] = useState<Persona | null>(null);
   const frontCardRef = useRef<SwipeDeckCardHandle>(null);
 
   const front = queue[0];
   const back = queue[1] ?? queue[0];
 
-  const handleSwiped = (_direction: SwipeDirection) => {
+  const handleSwiped = (direction: SwipeDirection) => {
+    if (direction === 'right') {
+      setMatchedPersona(front);
+    }
     setQueue((prev) => {
       const [first, ...rest] = prev;
       return [...rest, first];
@@ -57,6 +63,10 @@ export default function SwipeBrowse() {
           dragDirection={dragDirection}
         />
       </View>
+
+      {matchedPersona && (
+        <SwipeMatch persona={matchedPersona} onContinue={() => setMatchedPersona(null)} />
+      )}
     </SafeAreaView>
   );
 }

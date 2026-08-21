@@ -8,4 +8,5 @@ export type Persona = {
   voiceSample?: AudioSource;
   styleName: string;
   description: string;
+  matchMessage: string;
 };
