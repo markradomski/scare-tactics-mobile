@@ -10,4 +10,7 @@ export type Persona = {
   description: string;
   matchMessage: string;
   chatOpener: string;
+  windowPrompt: string;
+  commitmentMessage: string;
+  cameraMessages: string[];
 };

@@ -1,7 +1,7 @@
 import 'react-native-reanimated';
 
 import { DMSans_400Regular, DMSans_600SemiBold } from '@expo-google-fonts/dm-sans';
-import { Geist_500Medium, Geist_600SemiBold } from '@expo-google-fonts/geist';
+import { Geist_400Regular, Geist_500Medium, Geist_600SemiBold } from '@expo-google-fonts/geist';
 import { WorkSans_400Regular } from '@expo-google-fonts/work-sans';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -13,6 +13,7 @@ import { ThemeProvider } from '../hooks/useTheme';
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
+    Geist_400Regular,
     Geist_500Medium,
     Geist_600SemiBold,
     DMSans_400Regular,

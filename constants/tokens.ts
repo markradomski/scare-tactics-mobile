@@ -13,6 +13,7 @@ const darkColors = {
   textBody: '#9ca3af',
   textAccent: '#60a5fa',
   textOnAccent: '#17171c',
+  textInverse: '#ffffff',
   actionNah: '#fd5068',
   actionYeah: '#2ecc8f',
 } as const;
@@ -45,6 +46,8 @@ export const radius = {
   message: 12,
   cta: 16,
   textarea: 8,
+  sheet: 20,
+  pickerDay: 999,
 } as const;
 
 export const sizes = {
@@ -56,6 +59,8 @@ export const sizes = {
   matchAvatar: 220,
   matchAvatarRing: 232,
   coachAvatar: 56,
+  sheetHandleWidth: 36,
+  sheetHandleHeight: 4,
 } as const;
 
 export const typography = {
@@ -115,4 +120,49 @@ export const typography = {
     lineHeight: 24,
     letterSpacing: 0,
   },
+  pickerChevron: {
+    fontFamily: 'Geist_400Regular',
+    fontSize: 20,
+  },
+  pickerWeekday: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 10,
+  },
+  pickerDay: {
+    fontFamily: 'Geist_400Regular',
+    fontSize: 15,
+  },
+  pickerDaySelected: {
+    fontFamily: 'Geist_600SemiBold',
+    fontSize: 15,
+  },
+  fieldLabel: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 10,
+    letterSpacing: 1.2,
+  },
+  contractDate: {
+    fontFamily: 'Geist_600SemiBold',
+    fontSize: 60,
+  },
+  contractTimeWindow: {
+    fontFamily: 'Geist_600SemiBold',
+    fontSize: 22,
+  },
+  photoLabel: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 14,
+    letterSpacing: 1.5,
+  },
+} as const;
+
+// The camera-check-in screen mimics native camera-app chrome, which stays
+// true black regardless of the app's persona theme — kept separate from
+// `colors` since it isn't part of the light/dark persona palette.
+export const cameraColors = {
+  background: '#000000',
+  controlsBackground: '#0f0f10',
+  buttonBackground: '#2c2c2e',
+  bubbleBackground: 'rgba(0, 0, 0, 0.7)',
+  white: '#ffffff',
 } as const;

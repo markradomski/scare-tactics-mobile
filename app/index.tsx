@@ -2,7 +2,11 @@ import { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { CameraCheckIn } from '../components/CameraCheckIn';
 import { GoalDeadlineChat } from '../components/GoalDeadlineChat';
+import { GoalDeadlineContract } from '../components/GoalDeadlineContract';
+import { GoalDeadlineNotificationWindow } from '../components/GoalDeadlineNotificationWindow';
+import { GoalNotificationWindow } from '../components/GoalNotificationWindow';
 import { SwipeActions } from '../components/SwipeActions';
 import type { SwipeDeckCardHandle } from '../components/SwipeDeckCard';
 import { SwipeDeckCard } from '../components/SwipeDeckCard';
@@ -13,7 +17,14 @@ import type { DragActionDirection, SwipeDirection } from '../hooks/useSwipeGestu
 import { useTheme } from '../hooks/useTheme';
 import type { Persona } from '../types/persona';
 
-type PostSwipeStage = 'match' | 'goal-chat' | null;
+type PostSwipeStage =
+  | 'match'
+  | 'goal-chat'
+  | 'deadline-window'
+  | 'time-window'
+  | 'contract'
+  | 'camera-check-in'
+  | null;
 
 export default function SwipeBrowse() {
   const { colors } = useTheme();
@@ -76,7 +87,39 @@ export default function SwipeBrowse() {
       {matchedPersona && postSwipeStage === 'goal-chat' && (
         <GoalDeadlineChat
           persona={matchedPersona}
-          onContinue={() => {
+          onContinue={() => setPostSwipeStage('deadline-window')}
+        />
+      )}
+
+      {matchedPersona && postSwipeStage === 'deadline-window' && (
+        <GoalDeadlineNotificationWindow
+          persona={matchedPersona}
+          onContinue={() => setPostSwipeStage('time-window')}
+        />
+      )}
+
+      {matchedPersona && postSwipeStage === 'time-window' && (
+        <GoalNotificationWindow
+          persona={matchedPersona}
+          onContinue={() => setPostSwipeStage('contract')}
+        />
+      )}
+
+      {matchedPersona && postSwipeStage === 'contract' && (
+        <GoalDeadlineContract
+          persona={matchedPersona}
+          onLockIn={() => setPostSwipeStage('camera-check-in')}
+          onPussyOut={() => {
+            setPostSwipeStage(null);
+            setMatchedPersona(null);
+          }}
+        />
+      )}
+
+      {matchedPersona && postSwipeStage === 'camera-check-in' && (
+        <CameraCheckIn
+          persona={matchedPersona}
+          onCapture={() => {
             setPostSwipeStage(null);
             setMatchedPersona(null);
           }}

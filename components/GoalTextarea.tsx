@@ -6,11 +6,12 @@ import { ResizeHandleIcon } from './ResizeHandleIcon';
 
 type GoalTextareaProps = {
   value: string;
-  onChangeText: (value: string) => void;
+  onChangeText?: (value: string) => void;
   placeholder?: string;
+  editable?: boolean;
 };
 
-export function GoalTextarea({ value, onChangeText, placeholder }: GoalTextareaProps) {
+export function GoalTextarea({ value, onChangeText, placeholder, editable = true }: GoalTextareaProps) {
   const { colors } = useTheme();
 
   return (
@@ -21,13 +22,14 @@ export function GoalTextarea({ value, onChangeText, placeholder }: GoalTextareaP
       ]}
     >
       <TextInput
-        style={[styles.input, { color: colors.textHeading }]}
+        style={[styles.input, { color: editable ? colors.textHeading : colors.textBody }]}
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
         placeholderTextColor={colors.textBody}
         multiline
         textAlignVertical="top"
+        editable={editable}
       />
       <View style={styles.handle}>
         <ResizeHandleIcon color={colors.textBody} />

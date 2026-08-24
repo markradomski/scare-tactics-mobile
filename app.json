@@ -25,7 +25,13 @@
     "plugins": [
       "expo-router",
       "expo-font",
-      "expo-audio"
+      "expo-audio",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Scare Tactics needs camera access for your check-in photos."
+        }
+      ]
     ]
   }
 }
