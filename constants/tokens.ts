@@ -3,10 +3,12 @@ const darkColors = {
   surfaceCard: '#1f2028',
   surfaceVoice: '#404353',
   surfaceMessage: '#1e2740',
+  surfaceTextarea: '#2a2c35',
   borderCard: '#2e303a',
   borderDefault: '#2e303a',
   borderAvatarRing: '#3f4350',
   borderVoiceHover: '#454857',
+  borderTextarea: '#454857',
   textHeading: '#f3f4f6',
   textBody: '#9ca3af',
   textAccent: '#60a5fa',
@@ -41,7 +43,8 @@ export const radius = {
   voice: 19,
   stamp: 12,
   message: 12,
-  matchCta: 16,
+  cta: 16,
+  textarea: 8,
 } as const;
 
 export const sizes = {
@@ -52,6 +55,7 @@ export const sizes = {
   actionGap: 36,
   matchAvatar: 220,
   matchAvatarRing: 232,
+  coachAvatar: 56,
 } as const;
 
 export const typography = {
@@ -100,9 +104,15 @@ export const typography = {
     fontSize: 16,
     letterSpacing: 0,
   },
-  matchCta: {
+  cta: {
     fontFamily: 'Geist_600SemiBold',
     fontSize: 17,
+    letterSpacing: 0,
+  },
+  goalTextarea: {
+    fontFamily: 'WorkSans_400Regular',
+    fontSize: 16,
+    lineHeight: 24,
     letterSpacing: 0,
   },
 } as const;

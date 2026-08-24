@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { GoalDeadlineChat } from '../components/GoalDeadlineChat';
 import { SwipeActions } from '../components/SwipeActions';
 import type { SwipeDeckCardHandle } from '../components/SwipeDeckCard';
 import { SwipeDeckCard } from '../components/SwipeDeckCard';
@@ -12,11 +13,14 @@ import type { DragActionDirection, SwipeDirection } from '../hooks/useSwipeGestu
 import { useTheme } from '../hooks/useTheme';
 import type { Persona } from '../types/persona';
 
+type PostSwipeStage = 'match' | 'goal-chat' | null;
+
 export default function SwipeBrowse() {
   const { colors } = useTheme();
   const [queue, setQueue] = useState(personas);
   const [dragDirection, setDragDirection] = useState<DragActionDirection>(null);
   const [matchedPersona, setMatchedPersona] = useState<Persona | null>(null);
+  const [postSwipeStage, setPostSwipeStage] = useState<PostSwipeStage>(null);
   const frontCardRef = useRef<SwipeDeckCardHandle>(null);
 
   const front = queue[0];
@@ -25,6 +29,7 @@ export default function SwipeBrowse() {
   const handleSwiped = (direction: SwipeDirection) => {
     if (direction === 'right') {
       setMatchedPersona(front);
+      setPostSwipeStage('match');
     }
     setQueue((prev) => {
       const [first, ...rest] = prev;
@@ -64,8 +69,18 @@ export default function SwipeBrowse() {
         />
       </View>
 
-      {matchedPersona && (
-        <SwipeMatch persona={matchedPersona} onContinue={() => setMatchedPersona(null)} />
+      {matchedPersona && postSwipeStage === 'match' && (
+        <SwipeMatch persona={matchedPersona} onContinue={() => setPostSwipeStage('goal-chat')} />
+      )}
+
+      {matchedPersona && postSwipeStage === 'goal-chat' && (
+        <GoalDeadlineChat
+          persona={matchedPersona}
+          onContinue={() => {
+            setPostSwipeStage(null);
+            setMatchedPersona(null);
+          }}
+        />
       )}
     </SafeAreaView>
   );

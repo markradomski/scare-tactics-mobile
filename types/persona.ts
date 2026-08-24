@@ -9,4 +9,5 @@ export type Persona = {
   styleName: string;
   description: string;
   matchMessage: string;
+  chatOpener: string;
 };

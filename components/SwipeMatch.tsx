@@ -1,8 +1,11 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import Animated, { SlideInLeft } from 'react-native-reanimated';
 
-import { radius, sizes, spacing, typography } from '../constants/tokens';
+import { sizes, spacing, typography } from '../constants/tokens';
 import { useTheme } from '../hooks/useTheme';
 import type { Persona } from '../types/persona';
+import { PersonaMessage } from './PersonaMessage';
+import { PrimaryCta } from './PrimaryCta';
 
 type SwipeMatchProps = {
   persona: Persona;
@@ -13,7 +16,10 @@ export function SwipeMatch({ persona, onContinue }: SwipeMatchProps) {
   const { colors } = useTheme();
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.surfaceCard }]}>
+    <Animated.View
+      entering={SlideInLeft.duration(350)}
+      style={[styles.container, { backgroundColor: colors.surfaceCard }]}
+    >
       <View style={[styles.avatarRing, { borderColor: colors.actionYeah }]}>
         <Image source={persona.avatar} style={styles.avatar} />
       </View>
@@ -23,21 +29,14 @@ export function SwipeMatch({ persona, onContinue }: SwipeMatchProps) {
         {persona.name} is now your accountability buddy.
       </Text>
 
-      <View style={[styles.messageBubble, { backgroundColor: colors.surfaceMessage }]}>
-        <Text style={[styles.messageText, { color: colors.textHeading }]}>
-          {persona.matchMessage}
-        </Text>
+      <View style={styles.messageWrapper}>
+        <PersonaMessage text={persona.matchMessage} />
       </View>
 
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel="Continue"
-        onPress={onContinue}
-        style={[styles.cta, { backgroundColor: colors.actionYeah }]}
-      >
-        <Text style={[styles.ctaLabel, { color: colors.textOnAccent }]}>Continue</Text>
-      </Pressable>
-    </View>
+      <View style={styles.ctaWrapper}>
+        <PrimaryCta label="Continue" onPress={onContinue} />
+      </View>
+    </Animated.View>
   );
 }
 
@@ -80,30 +79,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: spacing.sm,
   },
-  messageBubble: {
+  messageWrapper: {
     width: '100%',
-    borderRadius: radius.message,
-    paddingHorizontal: 14,
-    paddingVertical: spacing.sm,
     marginTop: spacing.xxl,
   },
-  messageText: {
-    fontFamily: typography.personaDescription.fontFamily,
-    fontSize: typography.personaDescription.fontSize,
-    lineHeight: typography.personaDescription.lineHeight,
-    letterSpacing: typography.personaDescription.letterSpacing,
-  },
-  cta: {
+  ctaWrapper: {
     width: '100%',
-    height: sizes.actionButton + 2,
-    borderRadius: radius.matchCta,
-    alignItems: 'center',
-    justifyContent: 'center',
     marginTop: 'auto',
-  },
-  ctaLabel: {
-    fontFamily: typography.matchCta.fontFamily,
-    fontSize: typography.matchCta.fontSize,
-    letterSpacing: typography.matchCta.letterSpacing,
   },
 });
