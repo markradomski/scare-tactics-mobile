@@ -124,8 +124,8 @@ export default function SwipeBrowse() {
       {matchedPersona && postSwipeStage === 'camera-check-in' && (
         <CameraCheckIn
           persona={matchedPersona}
-          onCapture={() => {
-            setWeighInKg(Math.round((60 + Math.random() * 30) * 10) / 10);
+          onCapture={(weightKg) => {
+            setWeighInKg(weightKg);
             setPostSwipeStage('check-in-success');
           }}
           onTimeout={() => setPostSwipeStage('check-in-fail')}

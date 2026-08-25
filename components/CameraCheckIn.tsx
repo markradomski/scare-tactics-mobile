@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 
 import { cameraColors, typography } from '../constants/tokens';
@@ -8,18 +8,22 @@ import type { Persona } from '../types/persona';
 import { CameraFlipIcon } from './CameraFlipIcon';
 import { CameraGalleryIcon } from './CameraGalleryIcon';
 import { CameraTextMessages } from './CameraTextMessages';
+import { ScanningOverlay } from './ScanningOverlay';
 
 const CAPTURE_TIMEOUT_MS = 5000;
 
 type CameraCheckInProps = {
   persona: Persona;
-  onCapture: () => void;
+  onCapture: (weightKg: number) => void;
   onTimeout: () => void;
 };
 
 export function CameraCheckIn({ persona, onCapture, onTimeout }: CameraCheckInProps) {
   const [permission, requestPermission] = useCameraPermissions();
   const [facing, setFacing] = useState<'front' | 'back'>('back');
+  const [isScanning, setIsScanning] = useState(false);
+  const [frozenFrameUri, setFrozenFrameUri] = useState<string | null>(null);
+  const cameraRef = useRef<CameraView>(null);
 
   useEffect(() => {
     if (permission && !permission.granted && permission.canAskAgain) {
@@ -28,14 +32,30 @@ export function CameraCheckIn({ persona, onCapture, onTimeout }: CameraCheckInPr
   }, [permission, requestPermission]);
 
   // Only starts once the camera is actually visible — permission-prompt time
-  // shouldn't count against the 5 seconds.
+  // shouldn't count against the 5 seconds. Stops once the shutter is pressed.
   useEffect(() => {
-    if (!permission?.granted) {
+    if (!permission?.granted || isScanning) {
       return;
     }
     const timer = setTimeout(onTimeout, CAPTURE_TIMEOUT_MS);
     return () => clearTimeout(timer);
-  }, [permission?.granted, onTimeout]);
+  }, [permission?.granted, isScanning, onTimeout]);
+
+  const handleShutterPress = async () => {
+    if (isScanning) {
+      return;
+    }
+    setIsScanning(true);
+    try {
+      const photo = await cameraRef.current?.takePictureAsync({ quality: 0.5 });
+      if (photo) {
+        setFrozenFrameUri(photo.uri);
+      }
+    } catch {
+      // No camera hardware (e.g. iOS Simulator) — keep the demo moving with
+      // whatever is already on screen instead of blocking the scan.
+    }
+  };
 
   if (!permission || (!permission.granted && permission.canAskAgain)) {
     return <View style={styles.container} />;
@@ -53,7 +73,11 @@ export function CameraCheckIn({ persona, onCapture, onTimeout }: CameraCheckInPr
 
   return (
     <View style={styles.container}>
-      <CameraView style={styles.preview} facing={facing} />
+      {frozenFrameUri ? (
+        <Image source={{ uri: frozenFrameUri }} style={styles.preview} />
+      ) : (
+        <CameraView ref={cameraRef} style={styles.preview} facing={facing} />
+      )}
 
       <View pointerEvents="none" style={styles.guide} />
 
@@ -88,7 +112,7 @@ export function CameraCheckIn({ persona, onCapture, onTimeout }: CameraCheckInPr
         </Pressable>
 
         <Pressable
-          onPress={onCapture}
+          onPress={handleShutterPress}
           style={styles.shutterWrapper}
           accessibilityRole="button"
           accessibilityLabel="Take photo"
@@ -99,6 +123,8 @@ export function CameraCheckIn({ persona, onCapture, onTimeout }: CameraCheckInPr
           <View style={styles.shutterButton} />
         </Pressable>
       </View>
+
+      {isScanning && <ScanningOverlay onComplete={onCapture} />}
     </View>
   );
 }
