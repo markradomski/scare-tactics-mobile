@@ -169,6 +169,10 @@ export const typography = {
     fontSize: 93,
     letterSpacing: 4,
   },
+  presetChip: {
+    fontFamily: 'DMSans_600SemiBold',
+    fontSize: 12,
+  },
 } as const;
 
 // The camera-check-in screen mimics native camera-app chrome, which stays

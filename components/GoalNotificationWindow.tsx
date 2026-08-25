@@ -1,11 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { SlideInLeft } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { spacing, typography } from '../constants/tokens';
+import { radius, spacing, typography } from '../constants/tokens';
 import { getMalcolmTimeVariantMessage } from '../data/malcolmTimeVariants';
 import { useTheme } from '../hooks/useTheme';
 import { useGoalStore } from '../store/goalStore';
+import type { DailyTimeWindow } from '../store/goalStore';
 import type { Persona } from '../types/persona';
 import { CoachHeader } from './CoachHeader';
 import { GoalTimeSlider } from './GoalTimeSlider';
@@ -16,6 +17,19 @@ type GoalNotificationWindowProps = {
   persona: Persona;
   onContinue: () => void;
 };
+
+// Matches the 4 named goal-notification variants from Figma
+// (5am-6am, 9am-12pm, 12pm-6pm, 6am-midnight) — see data/malcolmTimeVariants.ts.
+const PRESET_WINDOWS: { label: string; window: DailyTimeWindow }[] = [
+  { label: '5am–6am', window: { startHour: 5, endHour: 6 } },
+  { label: '9am–12pm', window: { startHour: 9, endHour: 12 } },
+  { label: '12pm–6pm', window: { startHour: 12, endHour: 18 } },
+  { label: '6am–Midnight', window: { startHour: 6, endHour: 24 } },
+];
+
+function isSameWindow(a: DailyTimeWindow, b: DailyTimeWindow) {
+  return a.startHour === b.startHour && a.endHour === b.endHour;
+}
 
 export function GoalNotificationWindow({ persona, onContinue }: GoalNotificationWindowProps) {
   const { colors } = useTheme();
@@ -47,6 +61,36 @@ export function GoalNotificationWindow({ persona, onContinue }: GoalNotification
           When should {persona.name} check in?
         </Text>
         <GoalTimeSlider value={dailyTimeWindow} onChange={setDailyTimeWindow} />
+
+        <View style={styles.presetRow}>
+          {PRESET_WINDOWS.map((preset) => {
+            const isActive = isSameWindow(dailyTimeWindow, preset.window);
+            return (
+              <Pressable
+                key={preset.label}
+                onPress={() => setDailyTimeWindow(preset.window)}
+                accessibilityRole="button"
+                accessibilityLabel={preset.label}
+                style={[
+                  styles.presetChip,
+                  {
+                    backgroundColor: isActive ? colors.textAccent : 'transparent',
+                    borderColor: isActive ? colors.textAccent : colors.borderCard,
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.presetChipLabel,
+                    { color: isActive ? colors.textInverse : colors.textBody },
+                  ]}
+                >
+                  {preset.label}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
       </View>
 
       <View style={styles.messageWrapper}>
@@ -78,6 +122,21 @@ const styles = StyleSheet.create({
     fontSize: typography.personaStyleName.fontSize,
     lineHeight: typography.personaStyleName.lineHeight,
     letterSpacing: typography.personaStyleName.letterSpacing,
+  },
+  presetRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.xs,
+  },
+  presetChip: {
+    borderWidth: 1,
+    borderRadius: radius.pickerDay,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
+  },
+  presetChipLabel: {
+    fontFamily: typography.presetChip.fontFamily,
+    fontSize: typography.presetChip.fontSize,
   },
   messageWrapper: {
     marginTop: spacing.xxl,

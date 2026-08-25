@@ -40,6 +40,21 @@ export function GoalTimeSlider({ value, onChange }: GoalTimeSliderProps) {
   const startPx = useSharedValue(startHour * HOUR_WIDTH);
   const endPx = useSharedValue(endHour * HOUR_WIDTH);
 
+  // Syncs external changes to `value` (e.g. a preset button) into the
+  // slider's own state/position — drags update the parent via onChange, but
+  // nothing pushes the reverse direction without this. Adjusting state
+  // during render (guarded by a prevValue comparison) rather than in a
+  // useEffect is React's own recommended pattern for this and avoids an
+  // extra render pass: https://react.dev/learn/you-might-not-need-an-effect
+  const [prevValue, setPrevValue] = useState(value);
+  if (prevValue.startHour !== value.startHour || prevValue.endHour !== value.endHour) {
+    setPrevValue(value);
+    setStartHour(value.startHour);
+    setEndHour(value.endHour);
+    startPx.value = withSpring(value.startHour * HOUR_WIDTH);
+    endPx.value = withSpring(value.endHour * HOUR_WIDTH);
+  }
+
   // Gesture objects are rebuilt every render (not memoized), so these can be
   // plain closures over the latest startHour/endHour — no ref mirroring needed.
   const commitStart = (hour: number) => {
