@@ -1,5 +1,4 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Animated, { SlideInLeft } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { radius, spacing, typography } from '../constants/tokens';
@@ -11,11 +10,9 @@ import type { Persona } from '../types/persona';
 import { CoachHeader } from './CoachHeader';
 import { GoalTimeSlider } from './GoalTimeSlider';
 import { PersonaMessage } from './PersonaMessage';
-import { PrimaryCta } from './PrimaryCta';
 
 type GoalNotificationWindowProps = {
   persona: Persona;
-  onContinue: () => void;
 };
 
 // Matches the 4 named goal-notification variants from Figma
@@ -31,7 +28,7 @@ function isSameWindow(a: DailyTimeWindow, b: DailyTimeWindow) {
   return a.startHour === b.startHour && a.endHour === b.endHour;
 }
 
-export function GoalNotificationWindow({ persona, onContinue }: GoalNotificationWindowProps) {
+export function GoalNotificationWindow({ persona }: GoalNotificationWindowProps) {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const dailyTimeWindow = useGoalStore((state) => state.dailyTimeWindow);
@@ -43,17 +40,16 @@ export function GoalNotificationWindow({ persona, onContinue }: GoalNotification
       : persona.commitmentMessage;
 
   return (
-    <Animated.View
-      entering={SlideInLeft.duration(350)}
+    <View
       style={[
         styles.container,
         {
           backgroundColor: colors.surfaceCard,
           paddingTop: insets.top + spacing.md,
-          paddingBottom: insets.bottom + spacing.md,
         },
       ]}
     >
+
       <CoachHeader persona={persona} message={persona.windowPrompt} />
 
       <View style={styles.controlBlock}>
@@ -96,21 +92,13 @@ export function GoalNotificationWindow({ persona, onContinue }: GoalNotification
       <View style={styles.messageWrapper}>
         <PersonaMessage text={commitmentMessage} />
       </View>
-
-      <View style={styles.ctaWrapper}>
-        <PrimaryCta label="Set window" onPress={onContinue} />
-      </View>
-    </Animated.View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    flex: 1,
     paddingHorizontal: spacing.md,
   },
   controlBlock: {
@@ -140,8 +128,5 @@ const styles = StyleSheet.create({
   },
   messageWrapper: {
     marginTop: spacing.xxl,
-  },
-  ctaWrapper: {
-    marginTop: 'auto',
   },
 });

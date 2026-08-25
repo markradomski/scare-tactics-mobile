@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { LayoutChangeEvent } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { cameraColors, typography } from '../constants/tokens';
 import { useTheme } from '../hooks/useTheme';
@@ -18,6 +19,7 @@ type ScanningOverlayProps = {
 
 export function ScanningOverlay({ onComplete }: ScanningOverlayProps) {
   const { colors } = useTheme();
+  const insets = useSafeAreaInsets();
   const [textIndex, setTextIndex] = useState(0);
   const [overlayHeight, setOverlayHeight] = useState(0);
   const linePosition = useSharedValue(0);
@@ -71,7 +73,10 @@ export function ScanningOverlay({ onComplete }: ScanningOverlayProps) {
   return (
     <View
       onLayout={handleLayout}
-      style={[styles.container, { backgroundColor: cameraColors.bubbleBackground }]}
+      style={[
+        styles.container,
+        { top: insets.top, backgroundColor: cameraColors.bubbleBackground },
+      ]}
     >
       <Animated.View style={[styles.scanLine, { backgroundColor: colors.actionYeah }, lineStyle]} />
 
@@ -85,7 +90,6 @@ export function ScanningOverlay({ onComplete }: ScanningOverlayProps) {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: 0,
     left: 0,
     right: 0,
     bottom: 0,

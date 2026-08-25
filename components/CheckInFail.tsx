@@ -1,5 +1,4 @@
 import { StyleSheet, View } from 'react-native';
-import Animated, { SlideInLeft } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { spacing } from '../constants/tokens';
@@ -19,8 +18,7 @@ export function CheckInFail({ persona, onTryAgain }: CheckInFailProps) {
   const insets = useSafeAreaInsets();
 
   return (
-    <Animated.View
-      entering={SlideInLeft.duration(350)}
+    <View
       style={[
         styles.container,
         {
@@ -39,17 +37,13 @@ export function CheckInFail({ persona, onTryAgain }: CheckInFailProps) {
       <View style={styles.ctaWrapper}>
         <SecondaryCta label="Try again you big fanny" onPress={onTryAgain} fullWidth />
       </View>
-    </Animated.View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    flex: 1,
     paddingHorizontal: spacing.md,
   },
   stampWrapper: {

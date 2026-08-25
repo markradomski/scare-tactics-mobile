@@ -1,25 +1,22 @@
 import { StyleSheet, Text, View } from 'react-native';
-import Animated, { SlideInLeft } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { cameraColors, spacing, typography } from '../constants/tokens';
 import { useTheme } from '../hooks/useTheme';
 import type { Persona } from '../types/persona';
 import { CoachHeader } from './CoachHeader';
-import { PrimaryCta } from './PrimaryCta';
 
 type CheckInSuccessProps = {
   persona: Persona;
   weightKg: number;
-  onDone: () => void;
 };
 
-export function CheckInSuccess({ persona, weightKg, onDone }: CheckInSuccessProps) {
+export function CheckInSuccess({ persona, weightKg }: CheckInSuccessProps) {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
 
   return (
-    <Animated.View entering={SlideInLeft.duration(350)} style={styles.container}>
+    <View style={styles.container}>
       <View pointerEvents="none" style={styles.topScrim} />
 
       <View style={{ paddingTop: insets.top + spacing.sm }}>
@@ -32,21 +29,13 @@ export function CheckInSuccess({ persona, weightKg, onDone }: CheckInSuccessProp
         </Text>
         <Text style={[styles.weighInUnit, { color: colors.textBody }]}>kg</Text>
       </View>
-
-      <View style={styles.ctaWrapper}>
-        <PrimaryCta label="Done" onPress={onDone} />
-      </View>
-    </Animated.View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    flex: 1,
     backgroundColor: cameraColors.background,
     paddingHorizontal: spacing.md,
   },
@@ -78,11 +67,5 @@ const styles = StyleSheet.create({
     fontSize: typography.weighInUnit.fontSize,
     letterSpacing: typography.weighInUnit.letterSpacing,
     textAlign: 'center',
-  },
-  ctaWrapper: {
-    position: 'absolute',
-    left: spacing.md,
-    right: spacing.md,
-    bottom: 32,
   },
 });

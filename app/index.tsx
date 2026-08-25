@@ -1,42 +1,23 @@
 import { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { CameraCheckIn } from '../components/CameraCheckIn';
-import { CheckInFail } from '../components/CheckInFail';
-import { CheckInSuccess } from '../components/CheckInSuccess';
-import { GoalDeadlineChat } from '../components/GoalDeadlineChat';
-import { GoalDeadlineContract } from '../components/GoalDeadlineContract';
-import { GoalDeadlineNotificationWindow } from '../components/GoalDeadlineNotificationWindow';
-import { GoalNotificationWindow } from '../components/GoalNotificationWindow';
 import { SwipeActions } from '../components/SwipeActions';
 import type { SwipeDeckCardHandle } from '../components/SwipeDeckCard';
 import { SwipeDeckCard } from '../components/SwipeDeckCard';
-import { SwipeMatch } from '../components/SwipeMatch';
 import { spacing } from '../constants/tokens';
 import { personas } from '../data/personas';
 import type { DragActionDirection, SwipeDirection } from '../hooks/useSwipeGesture';
 import { useTheme } from '../hooks/useTheme';
-import type { Persona } from '../types/persona';
-
-type PostSwipeStage =
-  | 'match'
-  | 'goal-chat'
-  | 'deadline-window'
-  | 'time-window'
-  | 'contract'
-  | 'camera-check-in'
-  | 'check-in-success'
-  | 'check-in-fail'
-  | null;
+import { useSessionStore } from '../store/sessionStore';
 
 export default function SwipeBrowse() {
   const { colors } = useTheme();
+  const router = useRouter();
+  const setMatchedPersonaId = useSessionStore((state) => state.setMatchedPersonaId);
   const [queue, setQueue] = useState(personas);
   const [dragDirection, setDragDirection] = useState<DragActionDirection>(null);
-  const [matchedPersona, setMatchedPersona] = useState<Persona | null>(null);
-  const [postSwipeStage, setPostSwipeStage] = useState<PostSwipeStage>(null);
-  const [weighInKg, setWeighInKg] = useState(0);
   const frontCardRef = useRef<SwipeDeckCardHandle>(null);
 
   const front = queue[0];
@@ -44,8 +25,8 @@ export default function SwipeBrowse() {
 
   const handleSwiped = (direction: SwipeDirection) => {
     if (direction === 'right') {
-      setMatchedPersona(front);
-      setPostSwipeStage('match');
+      setMatchedPersonaId(front.id);
+      router.push('/match');
     }
     setQueue((prev) => {
       const [first, ...rest] = prev;
@@ -84,71 +65,6 @@ export default function SwipeBrowse() {
           dragDirection={dragDirection}
         />
       </View>
-
-      {matchedPersona && postSwipeStage === 'match' && (
-        <SwipeMatch persona={matchedPersona} onContinue={() => setPostSwipeStage('goal-chat')} />
-      )}
-
-      {matchedPersona && postSwipeStage === 'goal-chat' && (
-        <GoalDeadlineChat
-          persona={matchedPersona}
-          onContinue={() => setPostSwipeStage('deadline-window')}
-        />
-      )}
-
-      {matchedPersona && postSwipeStage === 'deadline-window' && (
-        <GoalDeadlineNotificationWindow
-          persona={matchedPersona}
-          onContinue={() => setPostSwipeStage('time-window')}
-        />
-      )}
-
-      {matchedPersona && postSwipeStage === 'time-window' && (
-        <GoalNotificationWindow
-          persona={matchedPersona}
-          onContinue={() => setPostSwipeStage('contract')}
-        />
-      )}
-
-      {matchedPersona && postSwipeStage === 'contract' && (
-        <GoalDeadlineContract
-          persona={matchedPersona}
-          onLockIn={() => setPostSwipeStage('camera-check-in')}
-          onPussyOut={() => {
-            setPostSwipeStage(null);
-            setMatchedPersona(null);
-          }}
-        />
-      )}
-
-      {matchedPersona && postSwipeStage === 'camera-check-in' && (
-        <CameraCheckIn
-          persona={matchedPersona}
-          onCapture={(weightKg) => {
-            setWeighInKg(weightKg);
-            setPostSwipeStage('check-in-success');
-          }}
-          onTimeout={() => setPostSwipeStage('check-in-fail')}
-        />
-      )}
-
-      {matchedPersona && postSwipeStage === 'check-in-success' && (
-        <CheckInSuccess
-          persona={matchedPersona}
-          weightKg={weighInKg}
-          onDone={() => {
-            setPostSwipeStage(null);
-            setMatchedPersona(null);
-          }}
-        />
-      )}
-
-      {matchedPersona && postSwipeStage === 'check-in-fail' && (
-        <CheckInFail
-          persona={matchedPersona}
-          onTryAgain={() => setPostSwipeStage('camera-check-in')}
-        />
-      )}
     </SafeAreaView>
   );
 }

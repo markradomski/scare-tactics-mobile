@@ -1,5 +1,4 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
-import Animated, { SlideInLeft } from 'react-native-reanimated';
 
 import { radius, sizes, spacing, typography } from '../constants/tokens';
 import { formatHourLabel } from './GoalTimeSlider';
@@ -7,16 +6,12 @@ import { useTheme } from '../hooks/useTheme';
 import { useGoalStore } from '../store/goalStore';
 import type { Persona } from '../types/persona';
 import { formatShortDate } from '../utils/date';
-import { PrimaryCta } from './PrimaryCta';
-import { SecondaryCta } from './SecondaryCta';
 
 type GoalDeadlineContractProps = {
   persona: Persona;
-  onLockIn: () => void;
-  onPussyOut: () => void;
 };
 
-export function GoalDeadlineContract({ persona, onLockIn, onPussyOut }: GoalDeadlineContractProps) {
+export function GoalDeadlineContract({ persona }: GoalDeadlineContractProps) {
   const { colors } = useTheme();
   const goalText = useGoalStore((state) => state.goalText);
   const deadline = useGoalStore((state) => state.deadline);
@@ -26,10 +21,7 @@ export function GoalDeadlineContract({ persona, onLockIn, onPussyOut }: GoalDead
   const timeWindowLabel = `${formatHourLabel(dailyTimeWindow.startHour)} – ${formatHourLabel(dailyTimeWindow.endHour)}`;
 
   return (
-    <Animated.View
-      entering={SlideInLeft.duration(350)}
-      style={[styles.container, { backgroundColor: colors.surfaceCard }]}
-    >
+    <View style={[styles.container, { backgroundColor: colors.surfaceCard }]}>
       <Image source={persona.avatar} style={styles.avatar} />
 
       <Text style={[styles.title, { color: colors.textHeading }]}>Lock In The Deal</Text>
@@ -53,22 +45,13 @@ export function GoalDeadlineContract({ persona, onLockIn, onPussyOut }: GoalDead
         </Text>
         <Text style={[styles.timeWindowValue, { color: colors.textAccent }]}>{timeWindowLabel}</Text>
       </View>
-
-      <View style={styles.ctaRow}>
-        <PrimaryCta label="Lock it in" onPress={onLockIn} fullWidth={false} />
-        <SecondaryCta label="Pussy out" onPress={onPussyOut} />
-      </View>
-    </Animated.View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    flex: 1,
     alignItems: 'center',
     paddingHorizontal: spacing.md,
     paddingTop: 56,
@@ -133,11 +116,5 @@ const styles = StyleSheet.create({
     fontSize: typography.contractTimeWindow.fontSize,
     textAlign: 'center',
     marginTop: 8,
-  },
-  ctaRow: {
-    width: '100%',
-    flexDirection: 'row',
-    gap: 16,
-    marginTop: 'auto',
   },
 });

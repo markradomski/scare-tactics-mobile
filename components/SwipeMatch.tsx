@@ -1,25 +1,19 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
-import Animated, { SlideInLeft } from 'react-native-reanimated';
 
 import { sizes, spacing, typography } from '../constants/tokens';
 import { useTheme } from '../hooks/useTheme';
 import type { Persona } from '../types/persona';
 import { PersonaMessage } from './PersonaMessage';
-import { PrimaryCta } from './PrimaryCta';
 
 type SwipeMatchProps = {
   persona: Persona;
-  onContinue: () => void;
 };
 
-export function SwipeMatch({ persona, onContinue }: SwipeMatchProps) {
+export function SwipeMatch({ persona }: SwipeMatchProps) {
   const { colors } = useTheme();
 
   return (
-    <Animated.View
-      entering={SlideInLeft.duration(350)}
-      style={[styles.container, { backgroundColor: colors.surfaceCard }]}
-    >
+    <View style={[styles.container, { backgroundColor: colors.surfaceCard }]}>
       <View style={[styles.avatarRing, { borderColor: colors.actionYeah }]}>
         <Image source={persona.avatar} style={styles.avatar} />
       </View>
@@ -32,21 +26,13 @@ export function SwipeMatch({ persona, onContinue }: SwipeMatchProps) {
       <View style={styles.messageWrapper}>
         <PersonaMessage text={persona.matchMessage} />
       </View>
-
-      <View style={styles.ctaWrapper}>
-        <PrimaryCta label="Continue" onPress={onContinue} />
-      </View>
-    </Animated.View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    flex: 1,
     alignItems: 'center',
     paddingHorizontal: spacing.lg,
     paddingTop: 140,
@@ -82,9 +68,5 @@ const styles = StyleSheet.create({
   messageWrapper: {
     width: '100%',
     marginTop: spacing.xxl,
-  },
-  ctaWrapper: {
-    width: '100%',
-    marginTop: 'auto',
   },
 });

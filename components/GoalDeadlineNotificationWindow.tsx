@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View } from 'react-native';
-import Animated, { SlideInLeft } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { spacing, typography } from '../constants/tokens';
@@ -9,14 +8,12 @@ import type { Persona } from '../types/persona';
 import { formatShortDate } from '../utils/date';
 import { CoachHeader } from './CoachHeader';
 import { GoalTextarea } from './GoalTextarea';
-import { PrimaryCta } from './PrimaryCta';
 
 type GoalDeadlineNotificationWindowProps = {
   persona: Persona;
-  onContinue: () => void;
 };
 
-export function GoalDeadlineNotificationWindow({ persona, onContinue }: GoalDeadlineNotificationWindowProps) {
+export function GoalDeadlineNotificationWindow({ persona }: GoalDeadlineNotificationWindowProps) {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const goalText = useGoalStore((state) => state.goalText);
@@ -25,14 +22,12 @@ export function GoalDeadlineNotificationWindow({ persona, onContinue }: GoalDead
   const deadlineLabel = deadline ? formatShortDate(new Date(deadline)) : '—';
 
   return (
-    <Animated.View
-      entering={SlideInLeft.duration(350)}
+    <View
       style={[
         styles.container,
         {
           backgroundColor: colors.surfaceCard,
           paddingTop: insets.top + spacing.md,
-          paddingBottom: insets.bottom + spacing.md,
         },
       ]}
     >
@@ -43,21 +38,13 @@ export function GoalDeadlineNotificationWindow({ persona, onContinue }: GoalDead
 
       <Text style={[styles.fieldLabel, { color: colors.textBody }]}>DEADLINE</Text>
       <Text style={[styles.deadlineValue, { color: colors.textHeading }]}>{deadlineLabel}</Text>
-
-      <View style={styles.ctaWrapper}>
-        <PrimaryCta label="Continue" onPress={onContinue} />
-      </View>
-    </Animated.View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    flex: 1,
     paddingHorizontal: spacing.md,
   },
   label: {
@@ -77,8 +64,5 @@ const styles = StyleSheet.create({
     fontFamily: typography.contractDate.fontFamily,
     fontSize: typography.contractDate.fontSize,
     marginTop: 20,
-  },
-  ctaWrapper: {
-    marginTop: 'auto',
   },
 });
