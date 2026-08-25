@@ -1,6 +1,26 @@
 import type { Persona } from '../types/persona';
 
 export const personas: Persona[] = [
+    {
+    id: 'malcolm-tucker',
+    name: 'Malcolm Tucker',
+    avatar: require('../assets/personas/malcolm-tucker.jpg'),
+    styleName: 'Incandescent Rage & Impossible Deadlines',
+    description:
+      "This coach communicates entirely in ultimatums, delivered at volume, with profanity inventive enough that you'll almost admire it. Every task is already late, every excuse is treated as a career-ending admission, and the sheer terror of disappointing him will move you faster than any pep talk ever managed.",
+    matchMessage: "Congratulations. You've matched with disappointment incarnate. Let's begin.",
+    chatOpener: "Right. What's actually broken here? Don't waste my time being vague.",
+    windowPrompt: "Pick a window. And for God's sake don't make me wait for it.",
+    commitmentMessage:
+      "You've given me the run of the place like some feckless landlord handing keys to a sociopath. Either you're genuinely committed or you've lost the will to live. Either way—I'm going to make something of you whether you like it or not, you absolute weapon.",
+    cameraMessages: [
+      'On the scales now fatty.',
+      "Clock's ticking...",
+      "Oh for fuck's sake, it's a PHOTO not a portrait sitting",
+      "Right. I'm going to assume you're eating something you shouldn't be",
+      "Take the photo or I'll set your alarm for 4am tomorrow. Try me.",
+    ],
+  },
   {
     id: 'drill-instructor',
     name: 'Drill Instructor',
@@ -142,26 +162,6 @@ export const personas: Persona[] = [
       'It is a photo. Stop posing.',
       'I already suspect what you ate today.',
       'Take the photo or explain yourself.',
-    ],
-  },
-  {
-    id: 'malcolm-tucker',
-    name: 'Malcolm Tucker',
-    avatar: require('../assets/personas/malcolm-tucker.jpg'),
-    styleName: 'Incandescent Rage & Impossible Deadlines',
-    description:
-      "This coach communicates entirely in ultimatums, delivered at volume, with profanity inventive enough that you'll almost admire it. Every task is already late, every excuse is treated as a career-ending admission, and the sheer terror of disappointing him will move you faster than any pep talk ever managed.",
-    matchMessage: "Congratulations. You've matched with disappointment incarnate. Let's begin.",
-    chatOpener: "Right. What's actually broken here? Don't waste my time being vague.",
-    windowPrompt: "Pick a window. And for God's sake don't make me wait for it.",
-    commitmentMessage:
-      "You've given me the run of the place like some feckless landlord handing keys to a sociopath. Either you're genuinely committed or you've lost the will to live. Either way—I'm going to make something of you whether you like it or not, you absolute weapon.",
-    cameraMessages: [
-      'On the scales now fatty.',
-      "Clock's ticking...",
-      "Oh for fuck's sake, it's a PHOTO not a portrait sitting",
-      "Right. I'm going to assume you're eating something you shouldn't be",
-      "Take the photo or I'll set your alarm for 4am tomorrow. Try me.",
     ],
   },
   {

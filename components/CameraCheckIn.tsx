@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   textMessages: {
     position: 'absolute',
     left: 40,
-    top: 363,
+    bottom: 222,
     width: 322,
   },
   controls: {
