@@ -50,10 +50,9 @@ export function DeadlinePickerSheet({ visible, onConfirm }: DeadlinePickerSheetP
 
   return (
     <View style={styles.overlay}>
-      <Animated.View
-        entering={FadeIn.duration(200)}
-        style={[styles.scrim, { backgroundColor: colors.surfaceCard }]}
-      />
+      <Animated.View entering={FadeIn.duration(200)} style={styles.scrimWrapper}>
+        <View style={[styles.scrim, { backgroundColor: colors.surfaceCard }]} />
+      </Animated.View>
 
       <Animated.View
         entering={SlideInDown.duration(300)}
@@ -136,7 +135,8 @@ export function DeadlinePickerSheet({ visible, onConfirm }: DeadlinePickerSheetP
 
 const styles = StyleSheet.create({
   overlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
-  scrim: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.8 },
+  scrimWrapper: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
+  scrim: { flex: 1, opacity: 0.8 },
   sheet: {
     position: 'absolute',
     left: 0,

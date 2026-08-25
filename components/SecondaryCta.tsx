@@ -6,9 +6,10 @@ import { useTheme } from '../hooks/useTheme';
 type SecondaryCtaProps = {
   label: string;
   onPress: () => void;
+  fullWidth?: boolean;
 };
 
-export function SecondaryCta({ label, onPress }: SecondaryCtaProps) {
+export function SecondaryCta({ label, onPress, fullWidth = false }: SecondaryCtaProps) {
   const { colors } = useTheme();
 
   return (
@@ -16,7 +17,11 @@ export function SecondaryCta({ label, onPress }: SecondaryCtaProps) {
       accessibilityRole="button"
       accessibilityLabel={label}
       onPress={onPress}
-      style={[styles.button, { borderColor: colors.actionNah }]}
+      style={[
+        styles.button,
+        fullWidth ? styles.fullWidth : styles.halfWidth,
+        { borderColor: colors.actionNah },
+      ]}
     >
       <Text style={[styles.label, { color: colors.actionNah }]}>{label}</Text>
     </Pressable>
@@ -25,13 +30,14 @@ export function SecondaryCta({ label, onPress }: SecondaryCtaProps) {
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
     height: sizes.actionButton + 2,
     borderRadius: radius.cta,
     borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  fullWidth: { width: '100%' },
+  halfWidth: { flex: 1 },
   label: {
     fontFamily: typography.cta.fontFamily,
     fontSize: typography.cta.fontSize,

@@ -9,12 +9,15 @@ import { CameraFlipIcon } from './CameraFlipIcon';
 import { CameraGalleryIcon } from './CameraGalleryIcon';
 import { CameraTextMessages } from './CameraTextMessages';
 
+const CAPTURE_TIMEOUT_MS = 5000;
+
 type CameraCheckInProps = {
   persona: Persona;
   onCapture: () => void;
+  onTimeout: () => void;
 };
 
-export function CameraCheckIn({ persona, onCapture }: CameraCheckInProps) {
+export function CameraCheckIn({ persona, onCapture, onTimeout }: CameraCheckInProps) {
   const [permission, requestPermission] = useCameraPermissions();
   const [facing, setFacing] = useState<'front' | 'back'>('back');
 
@@ -23,6 +26,16 @@ export function CameraCheckIn({ persona, onCapture }: CameraCheckInProps) {
       requestPermission();
     }
   }, [permission, requestPermission]);
+
+  // Only starts once the camera is actually visible — permission-prompt time
+  // shouldn't count against the 5 seconds.
+  useEffect(() => {
+    if (!permission?.granted) {
+      return;
+    }
+    const timer = setTimeout(onTimeout, CAPTURE_TIMEOUT_MS);
+    return () => clearTimeout(timer);
+  }, [permission?.granted, onTimeout]);
 
   if (!permission || (!permission.granted && permission.canAskAgain)) {
     return <View style={styles.container} />;
@@ -136,7 +149,7 @@ const styles = StyleSheet.create({
   textMessages: {
     position: 'absolute',
     left: 40,
-    bottom: 222,
+    bottom: 260,
     width: 322,
   },
   controls: {

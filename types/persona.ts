@@ -13,4 +13,6 @@ export type Persona = {
   windowPrompt: string;
   commitmentMessage: string;
   cameraMessages: string[];
+  successMessage: string;
+  failMessage: string;
 };

@@ -3,6 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CameraCheckIn } from '../components/CameraCheckIn';
+import { CheckInFail } from '../components/CheckInFail';
+import { CheckInSuccess } from '../components/CheckInSuccess';
 import { GoalDeadlineChat } from '../components/GoalDeadlineChat';
 import { GoalDeadlineContract } from '../components/GoalDeadlineContract';
 import { GoalDeadlineNotificationWindow } from '../components/GoalDeadlineNotificationWindow';
@@ -24,6 +26,8 @@ type PostSwipeStage =
   | 'time-window'
   | 'contract'
   | 'camera-check-in'
+  | 'check-in-success'
+  | 'check-in-fail'
   | null;
 
 export default function SwipeBrowse() {
@@ -32,6 +36,7 @@ export default function SwipeBrowse() {
   const [dragDirection, setDragDirection] = useState<DragActionDirection>(null);
   const [matchedPersona, setMatchedPersona] = useState<Persona | null>(null);
   const [postSwipeStage, setPostSwipeStage] = useState<PostSwipeStage>(null);
+  const [weighInKg, setWeighInKg] = useState(0);
   const frontCardRef = useRef<SwipeDeckCardHandle>(null);
 
   const front = queue[0];
@@ -120,9 +125,28 @@ export default function SwipeBrowse() {
         <CameraCheckIn
           persona={matchedPersona}
           onCapture={() => {
+            setWeighInKg(Math.round((60 + Math.random() * 30) * 10) / 10);
+            setPostSwipeStage('check-in-success');
+          }}
+          onTimeout={() => setPostSwipeStage('check-in-fail')}
+        />
+      )}
+
+      {matchedPersona && postSwipeStage === 'check-in-success' && (
+        <CheckInSuccess
+          persona={matchedPersona}
+          weightKg={weighInKg}
+          onDone={() => {
             setPostSwipeStage(null);
             setMatchedPersona(null);
           }}
+        />
+      )}
+
+      {matchedPersona && postSwipeStage === 'check-in-fail' && (
+        <CheckInFail
+          persona={matchedPersona}
+          onTryAgain={() => setPostSwipeStage('camera-check-in')}
         />
       )}
     </SafeAreaView>

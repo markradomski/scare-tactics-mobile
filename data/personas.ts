@@ -20,6 +20,10 @@ export const personas: Persona[] = [
       "Right. I'm going to assume you're eating something you shouldn't be",
       "Take the photo or I'll set your alarm for 4am tomorrow. Try me.",
     ],
+    successMessage:
+      "Fine. You actually did it. Don't get used to my approval - one photo doesn't undo a lifetime of excuses, but it's a start. A pathetic, tiny start.",
+    failMessage:
+      "YOU DIDN'T EVEN TAKE THE PHOTO?! ONE task. ONE. A camera and a set of scales, and you've managed to fail at both. It's not like I asked you to take a photo of your face.",
   },
   {
     id: 'drill-instructor',
@@ -41,6 +45,9 @@ export const personas: Persona[] = [
       'I already know you skipped a rep today.',
       'Take the photo or drop and give me fifty.',
     ],
+    successMessage: 'Well would you look at that. You actually showed up. Do not expect a parade, maggot.',
+    failMessage:
+      "You had ONE job, maggot, and you couldn't even press a button. Pathetic. Get back here and try it again.",
   },
   {
     id: 'bill-burr',
@@ -62,6 +69,9 @@ export const personas: Persona[] = [
       'I bet you already had a donut today.',
       "Take the picture or I'm calling you at 6am.",
     ],
+    successMessage:
+      "Oh, look who actually did it. Don't get a big head about it, I'm still not impressed.",
+    failMessage: "You couldn't even take a picture? It's a camera, not a rocket ship. Unbelievable.",
   },
   {
     id: 'catholic-guilt',
@@ -83,6 +93,8 @@ export const personas: Persona[] = [
       'I suspect you already know what you ate.',
       "Take the photo, or I'll simply assume the worst.",
     ],
+    successMessage: "There. Was that so hard? I'm sure your mother would be... cautiously proud.",
+    failMessage: "You didn't even try. I won't say I'm disappointed. I'll just think it, quietly, forever.",
   },
   {
     id: 'mother-in-law',
@@ -103,6 +115,8 @@ export const personas: Persona[] = [
       "I'm sure you've been eating very... responsibly.",
       "Take the photo, or I'll just tell everyone you skipped it.",
     ],
+    successMessage: "Oh, you actually did it. How surprising. I'll let everyone know you tried.",
+    failMessage: "Oh, you didn't manage it. That's alright, dear. Not everyone can handle a simple photo.",
   },
   {
     id: 'retardmaxx',
@@ -122,6 +136,8 @@ export const personas: Persona[] = [
       "YOU ATE SOMETHING YOU SHOULDN'T HAVE DIDN'T YOU.",
       "TAKE THE PHOTO OR I'M SETTING TEN ALARMS.",
     ],
+    successMessage: "YOOOO YOU ACTUALLY DID IT. LET'S GOOOO. ONE DOWN.",
+    failMessage: "BRO YOU DIDN'T EVEN TAKE THE PHOTO. THAT'S CRAZY WORK. TRY AGAIN RIGHT NOW.",
   },
   {
     id: 'phil-stutz',
@@ -143,6 +159,8 @@ export const personas: Persona[] = [
       "Name the thing you're avoiding right now.",
       'Take the photo. Action beats analysis.',
     ],
+    successMessage: 'Good. You showed up. That is the whole game — do it again tomorrow.',
+    failMessage: "You froze. That's the part that sabotages you. Name it, then go again.",
   },
   {
     id: 'tiger-mom',
@@ -163,6 +181,8 @@ export const personas: Persona[] = [
       'I already suspect what you ate today.',
       'Take the photo or explain yourself.',
     ],
+    successMessage: 'Acceptable. Not exceptional, but acceptable. Do it again tomorrow.',
+    failMessage: 'You did not even complete the photo. This is not acceptable. Try again.',
   },
   {
     id: 'pennywise',
@@ -184,5 +204,8 @@ export const personas: Persona[] = [
       "I can smell what you've been eating.",
       "Take the photo, or I'll come find you instead.",
     ],
+    successMessage: "Ohhh, you actually did it. I'm so proud... and so very hungry.",
+    failMessage:
+      "Ohhh, you ran out of time. How delicious. I'll be right here when you're ready to try again.",
   },
 ];
