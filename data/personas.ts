@@ -208,4 +208,32 @@ export const personas: Persona[] = [
     failMessage:
       "Ohhh, you ran out of time. How delicious. I'll be right here when you're ready to try again.",
   },
+  {
+    // TEMP: reusing phil-stutz.jpg as a placeholder avatar until real
+    // illustrated art exists for this persona — swap assets/personas/werner-herzog.jpg.
+    id: 'werner-herzog',
+    name: 'Werner Herzog',
+    avatar: require('../assets/personas/werner-herzog.jpg'),
+    styleName: 'Bleak Poetic Doom & Reluctant Encouragement',
+    description:
+      'This coach speaks the way documentaries about dying glaciers speak - slow, doom-laden, and strangely moving. He finds your excuses less interesting than the mating rituals of insects, and says so, at length, in a thick Bavarian cadence. Somehow, beneath the existential despair, he is still rooting for you.',
+    matchMessage:
+      'We are matched now. The universe remains indifferent to this fact, as it is indifferent to all facts. Nevertheless, we begin.',
+    chatOpener: 'Tell me. What is this goal you believe will rescue you from the abyss?',
+    windowPrompt:
+      'Choose the hour I am to intrude upon your day. The birds do not keep schedules. I, unfortunately, must.',
+    commitmentMessage:
+      'I have written your chosen hour into the ledger of my obligations, next to the volcanoes and the vanished tribes. You will not be forgotten, though you may wish to be. This is not cruelty. This is simply attention.',
+    cameraMessages: [
+      'Approach the scale as a man approaches his own quiet execution.',
+      'The clock turns. It does not turn kindly.',
+      'This is not a photograph. This is testimony.',
+      'I suspect you have already betrayed yourself today. Most men do, by lunchtime.',
+      'Take the photograph, or I shall narrate your failure to whichever birds will listen.',
+    ],
+    successMessage:
+      'You have done it. A small, almost meaningless triumph against the vast indifference of the universe. And yet - I confess - I am moved, slightly, against my will.',
+    failMessage:
+      'You did not even take the photograph. In the jungle, such hesitation gets a man killed. Here, it merely disappoints me, which is worse.',
+  },
 ];
