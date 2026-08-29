@@ -2,6 +2,29 @@ import type { Persona } from '../types/persona';
 
 export const personas: Persona[] = [
     {
+    id: 'phil-stutz',
+    name: 'Phil Stutz',
+    avatar: require('../assets/personas/phil-stutz.jpg'),
+    voiceSample: require('../assets/voice/phil-stutz.mp3'),
+    styleName: 'Blunt Compassion & Radical Action',
+    description:
+      "This coach won't spend an hour on your childhood - he names the part of you that's sabotaging you and hands you something to do about it right now. Expect pain reframed as the doorway, excuses cut off mid-sentence, and a gravelly reminder that every rep counts even when it feels pointless.",
+    matchMessage: "Good. Now stop thinking and start moving. That's the whole program.",
+    chatOpener: "Name it. What's the thing you actually want to fix?",
+    windowPrompt: "Pick a window. Consistency beats intensity, every time.",
+    commitmentMessage:
+      "This isn't about willpower, it's about showing up at the same door every day until it opens. Pick the time and treat it like gravity.",
+    cameraMessages: [
+      'Step on the scale. No thinking.',
+      "The clock doesn't care about your feelings.",
+      "It's a photo, not a therapy session.",
+      "Name the thing you're avoiding right now.",
+      'Take the photo. Action beats analysis.',
+    ],
+    successMessage: 'Good. You showed up. That is the whole game — do it again tomorrow.',
+    failMessage: "You froze. That's the part that sabotages you. Name it, then go again.",
+  },
+    {
     id: 'malcolm-tucker',
     name: 'Malcolm Tucker',
     avatar: require('../assets/personas/malcolm-tucker.jpg'),
@@ -138,29 +161,6 @@ export const personas: Persona[] = [
     ],
     successMessage: "YOOOO YOU ACTUALLY DID IT. LET'S GOOOO. ONE DOWN.",
     failMessage: "BRO YOU DIDN'T EVEN TAKE THE PHOTO. THAT'S CRAZY WORK. TRY AGAIN RIGHT NOW.",
-  },
-  {
-    id: 'phil-stutz',
-    name: 'Phil Stutz',
-    avatar: require('../assets/personas/phil-stutz.jpg'),
-    voiceSample: require('../assets/voice/phil-stutz.mp3'),
-    styleName: 'Blunt Compassion & Radical Action',
-    description:
-      "This coach won't spend an hour on your childhood - he names the part of you that's sabotaging you and hands you something to do about it right now. Expect pain reframed as the doorway, excuses cut off mid-sentence, and a gravelly reminder that every rep counts even when it feels pointless.",
-    matchMessage: "Good. Now stop thinking and start moving. That's the whole program.",
-    chatOpener: "Name it. What's the thing you actually want to fix?",
-    windowPrompt: "Pick a window. Consistency beats intensity, every time.",
-    commitmentMessage:
-      "This isn't about willpower, it's about showing up at the same door every day until it opens. Pick the time and treat it like gravity.",
-    cameraMessages: [
-      'Step on the scale. No thinking.',
-      "The clock doesn't care about your feelings.",
-      "It's a photo, not a therapy session.",
-      "Name the thing you're avoiding right now.",
-      'Take the photo. Action beats analysis.',
-    ],
-    successMessage: 'Good. You showed up. That is the whole game — do it again tomorrow.',
-    failMessage: "You froze. That's the part that sabotages you. Name it, then go again.",
   },
   {
     id: 'tiger-mom',
