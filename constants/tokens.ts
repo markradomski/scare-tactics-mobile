@@ -17,6 +17,7 @@ const darkColors = {
   actionNah: '#fd5068',
   actionYeah: '#2ecc8f',
   surfaceWeighIn: '#1e3352',
+  trendFlat: '#fbbf24',
 } as const;
 
 // The Figma "persona" variable collection only documents a Dark mode palette
@@ -172,6 +173,23 @@ export const typography = {
   presetChip: {
     fontFamily: 'DMSans_600SemiBold',
     fontSize: 12,
+  },
+  chartAxisLabel: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 13,
+  },
+  chartSubtitle: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 15,
+  },
+  calloutTitle: {
+    fontFamily: 'DMSans_600SemiBold',
+    fontSize: 18,
+  },
+  calloutBody: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 13,
+    lineHeight: 16.9,
   },
 } as const;
 
