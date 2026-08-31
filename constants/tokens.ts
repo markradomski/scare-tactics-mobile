@@ -200,7 +200,8 @@ export const cameraColors = {
   background: '#000000',
   controlsBackground: '#0f0f10',
   buttonBackground: '#2c2c2e',
-  bubbleBackground: 'rgba(0, 0, 0, 0.7)',
+   bubbleBackground: 'rgba(44, 154, 243, 0.7)',
+  scanningOverlay: 'rgba(0, 0, 0, 0.7)',
   topScrim: 'rgba(0, 0, 0, 0.45)',
   white: '#ffffff',
 } as const;

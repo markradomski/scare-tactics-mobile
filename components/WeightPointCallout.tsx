@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated';
 import Svg, { Path } from 'react-native-svg';
 
 import { typography } from '../constants/tokens';
@@ -21,6 +21,9 @@ type WeightPointCalloutProps = {
 // token-bound surface.
 const BUBBLE_WHITE = '#ffffff';
 const BUBBLE_BODY_COLOR = '#6b6b75';
+// How long to wait after `visible` turns true before the fade-in starts,
+// separate from FADE_IN_DURATION_MS (how long the fade itself takes).
+const FADE_IN_DELAY_MS = 1000;
 const FADE_IN_DURATION_MS = 300;
 
 export function WeightPointCallout({ title, titleColor, body, height, visible }: WeightPointCalloutProps) {
@@ -28,7 +31,7 @@ export function WeightPointCallout({ title, titleColor, body, height, visible }:
 
   useEffect(() => {
     if (visible) {
-      opacity.value = withTiming(2, { duration: FADE_IN_DURATION_MS });
+      opacity.value = withDelay(FADE_IN_DELAY_MS, withTiming(1, { duration: FADE_IN_DURATION_MS }));
     }
   }, [visible, opacity]);
 
@@ -53,7 +56,7 @@ export function WeightPointCallout({ title, titleColor, body, height, visible }:
 
 const styles = StyleSheet.create({
   container: {
-    width: 240,
+    width: 242,
   },
   bubble: {
     backgroundColor: BUBBLE_WHITE,

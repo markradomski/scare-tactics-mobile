@@ -15,11 +15,11 @@ export const personas: Persona[] = [
     commitmentMessage:
       "This isn't about willpower, it's about showing up at the same door every day until it opens. Pick the time and treat it like gravity.",
     cameraMessages: [
-      'Step on the scale. No thinking.',
-      "The clock doesn't care about your feelings.",
-      "It's a photo, not a therapy session.",
-      "Name the thing you're avoiding right now.",
-      'Take the photo. Action beats analysis.',
+      "On the scales fatty",
+      "Take the shot. We'll deal with the number together.",
+      "The clock doesn't care about your feelings",
+      "Name the thing you're avoiding right now",
+      'Take the photo. Action beats analysis',
     ],
     successMessage: 'Good. You showed up. That is the whole game — do it again tomorrow.',
     failMessage: "You froze. That's the part that sabotages you. Name it, then go again.",
@@ -209,8 +209,6 @@ export const personas: Persona[] = [
       "Ohhh, you ran out of time. How delicious. I'll be right here when you're ready to try again.",
   },
   {
-    // TEMP: reusing phil-stutz.jpg as a placeholder avatar until real
-    // illustrated art exists for this persona — swap assets/personas/werner-herzog.jpg.
     id: 'werner-herzog',
     name: 'Werner Herzog',
     avatar: require('../assets/personas/werner-herzog.jpg'),

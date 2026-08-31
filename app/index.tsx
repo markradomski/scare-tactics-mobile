@@ -1,20 +1,25 @@
 import { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { SwipeActions } from '../components/SwipeActions';
 import type { SwipeDeckCardHandle } from '../components/SwipeDeckCard';
 import { SwipeDeckCard } from '../components/SwipeDeckCard';
-import { spacing } from '../constants/tokens';
 import { personas } from '../data/personas';
 import type { DragActionDirection, SwipeDirection } from '../hooks/useSwipeGesture';
 import { useTheme } from '../hooks/useTheme';
 import { useSessionStore } from '../store/sessionStore';
 
+// Figma's swipe-actions row sits 34pt above the bottom of its 874pt-tall
+// frame (row top:784, height:56) — added to the real safe-area inset so it
+// clears the home indicator on-device instead of just matching one mockup.
+const ACTIONS_BOTTOM_OFFSET = 34;
+
 export default function SwipeBrowse() {
   const { colors } = useTheme();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const setMatchedPersonaId = useSessionStore((state) => state.setMatchedPersonaId);
   const [queue, setQueue] = useState(personas);
   const [dragDirection, setDragDirection] = useState<DragActionDirection>(null);
@@ -41,7 +46,11 @@ export default function SwipeBrowse() {
   const visibleCards = back.id === front.id ? [front] : [back, front];
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      {/* Full-bleed, edge-to-edge deck (matches Figma's updated swipe-card,
+          which now covers the whole 402x874 frame) — deliberately not a
+          SafeAreaView, since the card renders behind the status bar/home
+          indicator, not inset from them. */}
       <View style={styles.deck}>
         {visibleCards.map((persona) => {
           const isFront = persona.id === front.id;
@@ -58,32 +67,38 @@ export default function SwipeBrowse() {
         })}
       </View>
 
-      <View style={styles.actions}>
+      {/* Floats on top of the full-bleed card, per Figma — box-none so the
+          empty space around the two buttons still reaches the card's pan
+          gesture underneath instead of swallowing the touch. */}
+      <View
+        pointerEvents="box-none"
+        style={[styles.actions, { bottom: insets.bottom + ACTIONS_BOTTOM_OFFSET }]}
+      >
         <SwipeActions
           onNah={() => frontCardRef.current?.swipeLeft()}
           onYeah={() => frontCardRef.current?.swipeRight()}
           dragDirection={dragDirection}
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: spacing.xl,
   },
   deck: {
-    flex: 1,
-    width: '100%',
-    paddingHorizontal: spacing.xl,
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   actions: {
-    paddingBottom: spacing.md,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    alignItems: 'center',
   },
 });

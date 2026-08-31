@@ -58,7 +58,7 @@ export function DeadlinePickerSheet({ visible, onConfirm }: DeadlinePickerSheetP
         entering={SlideInDown.duration(300)}
         style={[
           styles.sheet,
-          { backgroundColor: colors.surfaceCard, paddingBottom: insets.bottom + spacing.xl },
+          { backgroundColor: colors.surfaceCard, paddingBottom: insets.bottom + spacing.md },
         ]}
       >
         <View style={[styles.handle, { backgroundColor: colors.borderCard }]} />
@@ -127,7 +127,9 @@ export function DeadlinePickerSheet({ visible, onConfirm }: DeadlinePickerSheetP
           />
         </View>
 
-        <PrimaryCta label="Set deadline" onPress={() => onConfirm(selectedDate)} />
+        <View style={styles.ctaWrapper}>
+          <PrimaryCta label="Set deadline" onPress={() => onConfirm(selectedDate)} />
+        </View>
       </Animated.View>
     </View>
   );
@@ -145,7 +147,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: radius.sheet,
     borderTopRightRadius: radius.sheet,
     paddingTop: spacing.md,
-    paddingHorizontal: spacing.xl,
     alignItems: 'center',
     gap: spacing.xl,
   },
@@ -159,8 +160,13 @@ const styles = StyleSheet.create({
     fontSize: typography.personaSectionTitle.fontSize,
     lineHeight: typography.personaSectionTitle.lineHeight,
     letterSpacing: typography.personaSectionTitle.letterSpacing,
+    paddingHorizontal: spacing.xl,
   },
-  calendarBlock: { width: '100%', gap: 14 },
+  calendarBlock: { width: '100%', gap: 14, paddingHorizontal: spacing.xl },
+  // The CTA breaks out to the app-standard button inset (10px each side,
+  // matching every other full-width CTA) instead of the sheet's own wider
+  // 24px content padding.
+  ctaWrapper: { width: '100%', paddingHorizontal: spacing.sm },
   weekdayLabel: {
     fontFamily: typography.pickerWeekday.fontFamily,
     fontSize: typography.pickerWeekday.fontSize,
