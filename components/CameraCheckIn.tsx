@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import Svg, { Circle } from 'react-native-svg';
 
 import { cameraColors, typography } from '../constants/tokens';
@@ -10,7 +11,8 @@ import { CameraGalleryIcon } from './CameraGalleryIcon';
 import { CameraTextMessages } from './CameraTextMessages';
 import { ScanningOverlay } from './ScanningOverlay';
 
-const CAPTURE_TIMEOUT_MS = 5000;
+const CAPTURE_TIMEOUT_MS = 300000;
+const MINIMISE_DURATION_MS = 500;
 
 type CameraCheckInProps = {
   persona: Persona;
@@ -23,7 +25,10 @@ export function CameraCheckIn({ persona, onCapture, onTimeout }: CameraCheckInPr
   const [facing, setFacing] = useState<'front' | 'back'>('back');
   const [isScanning, setIsScanning] = useState(false);
   const [frozenFrameUri, setFrozenFrameUri] = useState<string | null>(null);
+  const [capturedWeightKg, setCapturedWeightKg] = useState<number | null>(null);
   const cameraRef = useRef<CameraView>(null);
+  const minimiseScale = useSharedValue(1);
+  const minimiseOpacity = useSharedValue(1);
 
   useEffect(() => {
     if (permission && !permission.granted && permission.canAskAgain) {
@@ -32,7 +37,7 @@ export function CameraCheckIn({ persona, onCapture, onTimeout }: CameraCheckInPr
   }, [permission, requestPermission]);
 
   // Only starts once the camera is actually visible — permission-prompt time
-  // shouldn't count against the 5 seconds. Stops once the shutter is pressed.
+  // shouldn't count against the capture timeout. Stops once the shutter is pressed.
   useEffect(() => {
     if (!permission?.granted || isScanning) {
       return;
@@ -40,6 +45,26 @@ export function CameraCheckIn({ persona, onCapture, onTimeout }: CameraCheckInPr
     const timer = setTimeout(onTimeout, CAPTURE_TIMEOUT_MS);
     return () => clearTimeout(timer);
   }, [permission?.granted, isScanning, onTimeout]);
+
+  // Mirrors ScanningOverlay's state-driven effect pattern above: the shared
+  // values are only ever mutated from inside an effect, not directly from
+  // the onComplete callback.
+  useEffect(() => {
+    if (capturedWeightKg === null) {
+      return;
+    }
+    minimiseScale.value = withTiming(0.85, { duration: MINIMISE_DURATION_MS });
+    minimiseOpacity.value = withTiming(0, { duration: MINIMISE_DURATION_MS }, (finished) => {
+      if (finished) {
+        runOnJS(onCapture)(capturedWeightKg);
+      }
+    });
+  }, [capturedWeightKg, minimiseScale, minimiseOpacity, onCapture]);
+
+  const minimiseStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: minimiseScale.value }],
+    opacity: minimiseOpacity.value,
+  }));
 
   const handleShutterPress = async () => {
     if (isScanning) {
@@ -72,7 +97,7 @@ export function CameraCheckIn({ persona, onCapture, onTimeout }: CameraCheckInPr
   }
 
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, minimiseStyle]}>
       {frozenFrameUri ? (
         <Image source={{ uri: frozenFrameUri }} style={styles.preview} />
       ) : (
@@ -124,8 +149,8 @@ export function CameraCheckIn({ persona, onCapture, onTimeout }: CameraCheckInPr
         </Pressable>
       </View>
 
-      {isScanning && <ScanningOverlay onComplete={onCapture} />}
-    </View>
+      {isScanning && <ScanningOverlay onComplete={setCapturedWeightKg} />}
+    </Animated.View>
   );
 }
 

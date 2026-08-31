@@ -17,6 +17,7 @@ const darkColors = {
   actionNah: '#fd5068',
   actionYeah: '#2ecc8f',
   surfaceWeighIn: '#1e3352',
+  trendFlat: '#fbbf24',
 } as const;
 
 // The Figma "persona" variable collection only documents a Dark mode palette
@@ -173,6 +174,23 @@ export const typography = {
     fontFamily: 'DMSans_600SemiBold',
     fontSize: 12,
   },
+  chartAxisLabel: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 13,
+  },
+  chartSubtitle: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 15,
+  },
+  calloutTitle: {
+    fontFamily: 'DMSans_600SemiBold',
+    fontSize: 18,
+  },
+  calloutBody: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 13,
+    lineHeight: 16.9,
+  },
 } as const;
 
 // The camera-check-in screen mimics native camera-app chrome, which stays
@@ -182,7 +200,8 @@ export const cameraColors = {
   background: '#000000',
   controlsBackground: '#0f0f10',
   buttonBackground: '#2c2c2e',
-  bubbleBackground: 'rgba(0, 0, 0, 0.7)',
+   bubbleBackground: 'rgba(44, 154, 243, 0.7)',
+  scanningOverlay: 'rgba(0, 0, 0, 0.7)',
   topScrim: 'rgba(0, 0, 0, 0.45)',
   white: '#ffffff',
 } as const;

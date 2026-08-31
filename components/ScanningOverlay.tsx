@@ -75,7 +75,7 @@ export function ScanningOverlay({ onComplete }: ScanningOverlayProps) {
       onLayout={handleLayout}
       style={[
         styles.container,
-        { top: insets.top, backgroundColor: cameraColors.bubbleBackground },
+        { top: insets.top, backgroundColor: cameraColors.scanningOverlay },
       ]}
     >
       <Animated.View style={[styles.scanLine, { backgroundColor: colors.actionYeah }, lineStyle]} />

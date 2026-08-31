@@ -2,6 +2,29 @@ import type { Persona } from '../types/persona';
 
 export const personas: Persona[] = [
     {
+    id: 'phil-stutz',
+    name: 'Phil Stutz',
+    avatar: require('../assets/personas/phil-stutz.jpg'),
+    voiceSample: require('../assets/voice/phil-stutz.mp3'),
+    styleName: 'Blunt Compassion & Radical Action',
+    description:
+      "This coach won't spend an hour on your childhood - he names the part of you that's sabotaging you and hands you something to do about it right now. Expect pain reframed as the doorway, excuses cut off mid-sentence, and a gravelly reminder that every rep counts even when it feels pointless.",
+    matchMessage: "Good. Now stop thinking and start moving. That's the whole program.",
+    chatOpener: "Name it. What's the thing you actually want to fix?",
+    windowPrompt: "Pick a window. Consistency beats intensity, every time.",
+    commitmentMessage:
+      "This isn't about willpower, it's about showing up at the same door every day until it opens. Pick the time and treat it like gravity.",
+    cameraMessages: [
+      "On the scales fatty",
+      "Take the shot. We'll deal with the number together.",
+      "The clock doesn't care about your feelings",
+      "Name the thing you're avoiding right now",
+      'Take the photo. Action beats analysis',
+    ],
+    successMessage: 'Good. You showed up. That is the whole game — do it again tomorrow.',
+    failMessage: "You froze. That's the part that sabotages you. Name it, then go again.",
+  },
+    {
     id: 'malcolm-tucker',
     name: 'Malcolm Tucker',
     avatar: require('../assets/personas/malcolm-tucker.jpg'),
@@ -140,29 +163,6 @@ export const personas: Persona[] = [
     failMessage: "BRO YOU DIDN'T EVEN TAKE THE PHOTO. THAT'S CRAZY WORK. TRY AGAIN RIGHT NOW.",
   },
   {
-    id: 'phil-stutz',
-    name: 'Phil Stutz',
-    avatar: require('../assets/personas/phil-stutz.jpg'),
-    voiceSample: require('../assets/voice/phil-stutz.mp3'),
-    styleName: 'Blunt Compassion & Radical Action',
-    description:
-      "This coach won't spend an hour on your childhood - he names the part of you that's sabotaging you and hands you something to do about it right now. Expect pain reframed as the doorway, excuses cut off mid-sentence, and a gravelly reminder that every rep counts even when it feels pointless.",
-    matchMessage: "Good. Now stop thinking and start moving. That's the whole program.",
-    chatOpener: "Name it. What's the thing you actually want to fix?",
-    windowPrompt: "Pick a window. Consistency beats intensity, every time.",
-    commitmentMessage:
-      "This isn't about willpower, it's about showing up at the same door every day until it opens. Pick the time and treat it like gravity.",
-    cameraMessages: [
-      'Step on the scale. No thinking.',
-      "The clock doesn't care about your feelings.",
-      "It's a photo, not a therapy session.",
-      "Name the thing you're avoiding right now.",
-      'Take the photo. Action beats analysis.',
-    ],
-    successMessage: 'Good. You showed up. That is the whole game — do it again tomorrow.',
-    failMessage: "You froze. That's the part that sabotages you. Name it, then go again.",
-  },
-  {
     id: 'tiger-mom',
     name: 'Tiger Mom',
     avatar: require('../assets/personas/tiger-mom.jpg'),
@@ -207,5 +207,31 @@ export const personas: Persona[] = [
     successMessage: "Ohhh, you actually did it. I'm so proud... and so very hungry.",
     failMessage:
       "Ohhh, you ran out of time. How delicious. I'll be right here when you're ready to try again.",
+  },
+  {
+    id: 'werner-herzog',
+    name: 'Werner Herzog',
+    avatar: require('../assets/personas/werner-herzog.jpg'),
+    styleName: 'Bleak Poetic Doom & Reluctant Encouragement',
+    description:
+      'This coach speaks the way documentaries about dying glaciers speak - slow, doom-laden, and strangely moving. He finds your excuses less interesting than the mating rituals of insects, and says so, at length, in a thick Bavarian cadence. Somehow, beneath the existential despair, he is still rooting for you.',
+    matchMessage:
+      'We are matched now. The universe remains indifferent to this fact, as it is indifferent to all facts. Nevertheless, we begin.',
+    chatOpener: 'Tell me. What is this goal you believe will rescue you from the abyss?',
+    windowPrompt:
+      'Choose the hour I am to intrude upon your day. The birds do not keep schedules. I, unfortunately, must.',
+    commitmentMessage:
+      'I have written your chosen hour into the ledger of my obligations, next to the volcanoes and the vanished tribes. You will not be forgotten, though you may wish to be. This is not cruelty. This is simply attention.',
+    cameraMessages: [
+      'Approach the scale as a man approaches his own quiet execution.',
+      'The clock turns. It does not turn kindly.',
+      'This is not a photograph. This is testimony.',
+      'I suspect you have already betrayed yourself today. Most men do, by lunchtime.',
+      'Take the photograph, or I shall narrate your failure to whichever birds will listen.',
+    ],
+    successMessage:
+      'You have done it. A small, almost meaningless triumph against the vast indifference of the universe. And yet - I confess - I am moved, slightly, against my will.',
+    failMessage:
+      'You did not even take the photograph. In the jungle, such hesitation gets a man killed. Here, it merely disappoints me, which is worse.',
   },
 ];

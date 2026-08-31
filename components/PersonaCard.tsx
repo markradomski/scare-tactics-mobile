@@ -7,9 +7,14 @@ import { PersonaVoice } from './PersonaVoice';
 
 type PersonaCardProps = {
   persona: Persona;
+  // Extra top padding for the inner content (avatar, title, etc.) — the
+  // card's own background/border isn't affected, so it still touches
+  // whatever edge its parent gives it (the full-bleed screen top, in
+  // SwipeDeckCard).
+  contentOffsetY?: number;
 };
 
-export function PersonaCard({ persona }: PersonaCardProps) {
+export function PersonaCard({ persona, contentOffsetY = 0 }: PersonaCardProps) {
   const { colors } = useTheme();
 
   return (
@@ -17,6 +22,7 @@ export function PersonaCard({ persona }: PersonaCardProps) {
       style={[
         styles.card,
         { backgroundColor: colors.surfaceCard, borderColor: colors.borderCard },
+        { paddingTop: spacing.xxl + contentOffsetY },
       ]}
     >
       <View style={styles.avatarWrapper}>

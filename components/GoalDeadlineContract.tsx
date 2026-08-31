@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     letterSpacing: typography.goalTextarea.letterSpacing,
   },
   deadlineLabel: {
-    marginTop: 34,
+    marginTop: 16,
   },
   deadlineValue: {
     fontFamily: typography.contractDate.fontFamily,
@@ -109,12 +109,12 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   notificationLabel: {
-    marginTop: 38,
+    marginTop: 20,
   },
   timeWindowValue: {
     fontFamily: typography.contractTimeWindow.fontFamily,
     fontSize: typography.contractTimeWindow.fontSize,
     textAlign: 'center',
-    marginTop: 8,
+    marginTop: 14,
   },
 });
