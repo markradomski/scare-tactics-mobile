@@ -3,6 +3,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { radius, spacing, typography } from '../constants/tokens';
 import { getMalcolmTimeVariantMessage } from '../data/malcolmTimeVariants';
+import { getPhilStutzTimeVariantMessage } from '../data/philStutzTimeVariants';
 import { useTheme } from '../hooks/useTheme';
 import { useGoalStore } from '../store/goalStore';
 import type { DailyTimeWindow } from '../store/goalStore';
@@ -16,7 +17,8 @@ type GoalNotificationWindowProps = {
 };
 
 // Matches the 4 named goal-notification variants from Figma
-// (5am-6am, 9am-12pm, 12pm-6pm, 6am-midnight) — see data/malcolmTimeVariants.ts.
+// (5am-6am, 9am-12pm, 12pm-6pm, 6am-midnight) — see data/malcolmTimeVariants.ts
+// and data/philStutzTimeVariants.ts.
 const PRESET_WINDOWS: { label: string; window: DailyTimeWindow }[] = [
   { label: '5am–6am', window: { startHour: 5, endHour: 6 } },
   { label: '9am–12pm', window: { startHour: 9, endHour: 12 } },
@@ -34,10 +36,11 @@ export function GoalNotificationWindow({ persona }: GoalNotificationWindowProps)
   const dailyTimeWindow = useGoalStore((state) => state.dailyTimeWindow);
   const setDailyTimeWindow = useGoalStore((state) => state.setDailyTimeWindow);
 
-  const commitmentMessage =
-    persona.id === 'malcolm-tucker'
-      ? getMalcolmTimeVariantMessage(dailyTimeWindow)
-      : persona.commitmentMessage;
+  const commitmentMessage = (() => {
+    if (persona.id === 'malcolm-tucker') return getMalcolmTimeVariantMessage(dailyTimeWindow);
+    if (persona.id === 'phil-stutz') return getPhilStutzTimeVariantMessage(dailyTimeWindow);
+    return persona.commitmentMessage;
+  })();
 
   return (
     <View

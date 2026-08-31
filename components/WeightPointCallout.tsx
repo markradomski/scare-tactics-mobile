@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated';
 import Svg, { Path } from 'react-native-svg';
 
@@ -25,25 +25,49 @@ const BUBBLE_BODY_COLOR = '#6b6b75';
 // separate from FADE_IN_DURATION_MS (how long the fade itself takes).
 const FADE_IN_DELAY_MS = 1000;
 const FADE_IN_DURATION_MS = 300;
+// The bubble first shows a loading "…", then crossfades into the real
+// message — LOADING_HOLD_MS is how long "…" sits on screen (once the bubble
+// itself has finished fading in) before that crossfade starts.
+const LOADING_TEXT = '…';
+const LOADING_HOLD_MS = 500;
+const TEXT_CROSSFADE_DURATION_MS = 250;
 
 export function WeightPointCallout({ title, titleColor, body, height, visible }: WeightPointCalloutProps) {
   const opacity = useSharedValue(0);
+  const textProgress = useSharedValue(0);
 
   useEffect(() => {
     if (visible) {
       opacity.value = withDelay(FADE_IN_DELAY_MS, withTiming(1, { duration: FADE_IN_DURATION_MS }));
+      textProgress.value = withDelay(
+        FADE_IN_DELAY_MS + FADE_IN_DURATION_MS + LOADING_HOLD_MS,
+        withTiming(1, { duration: TEXT_CROSSFADE_DURATION_MS }),
+      );
     }
-  }, [visible, opacity]);
+  }, [visible, opacity, textProgress]);
 
   const fadeInStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
+  }));
+
+  const loadingTextStyle = useAnimatedStyle(() => ({
+    opacity: 1 - textProgress.value,
+  }));
+
+  const bodyTextStyle = useAnimatedStyle(() => ({
+    opacity: textProgress.value,
   }));
 
   return (
     <Animated.View style={[styles.container, { height }, fadeInStyle]}>
       <View style={styles.bubble}>
         {/* <Text style={[styles.title, { color: titleColor }]}>{title}</Text> */}
-        <Text style={styles.body}>{body}</Text>
+        <View>
+          <Animated.Text style={[styles.body, styles.loadingText, loadingTextStyle]}>
+            {LOADING_TEXT}
+          </Animated.Text>
+          <Animated.Text style={[styles.body, bodyTextStyle]}>{body}</Animated.Text>
+        </View>
       </View>
       <View style={styles.tailWrapper}>
         <Svg width={18} height={10} viewBox="0 0 18.2268 10.2526" fill="none">
@@ -79,6 +103,13 @@ const styles = StyleSheet.create({
     fontSize: typography.calloutBody.fontSize,
     lineHeight: typography.calloutBody.lineHeight,
     color: BUBBLE_BODY_COLOR,
+  },
+  // Stacked directly on top of the real body text (which stays in normal
+  // flow and sizes the bubble) so the two can crossfade in place.
+  loadingText: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
   },
   tailWrapper: {
     position: 'absolute',
