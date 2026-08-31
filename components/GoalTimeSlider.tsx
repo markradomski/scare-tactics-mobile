@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
@@ -46,13 +46,15 @@ export function GoalTimeSlider({ value, onChange }: GoalTimeSliderProps) {
   // during render (guarded by a prevValue comparison) rather than in a
   // useEffect is React's own recommended pattern for this and avoids an
   // extra render pass: https://react.dev/learn/you-might-not-need-an-effect
+  // — but that only applies to plain React state. Shared values aren't
+  // React state, and Reanimated warns ("Writing to `value` during component
+  // render") if they're mutated here too, so their sync stays in the effect
+  // below, keyed off the startHour/endHour state this block just set.
   const [prevValue, setPrevValue] = useState(value);
   if (prevValue.startHour !== value.startHour || prevValue.endHour !== value.endHour) {
     setPrevValue(value);
     setStartHour(value.startHour);
     setEndHour(value.endHour);
-    startPx.value = withSpring(value.startHour * HOUR_WIDTH);
-    endPx.value = withSpring(value.endHour * HOUR_WIDTH);
   }
 
   // Gesture objects are rebuilt every render (not memoized), so these can be
@@ -88,6 +90,12 @@ export function GoalTimeSlider({ value, onChange }: GoalTimeSliderProps) {
       endPx.value = withSpring(hour * HOUR_WIDTH);
       runOnJS(commitEnd)(hour);
     });
+
+  useEffect(() => {
+    startPx.value = withSpring(startHour * HOUR_WIDTH);
+    endPx.value = withSpring(endHour * HOUR_WIDTH);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startHour, endHour]);
 
   const startHandleStyle = useAnimatedStyle(() => ({ left: startPx.value }));
   const endHandleStyle = useAnimatedStyle(() => ({ left: endPx.value }));

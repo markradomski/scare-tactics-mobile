@@ -8,7 +8,7 @@ import { cameraColors, typography } from '../constants/tokens';
 import { useTheme } from '../hooks/useTheme';
 
 const SCAN_TEXTS = ['Detecting display…', 'Reading value…', 'Got it.'] as const;
-const TEXT_INTERVAL_MS = 800;
+const TEXT_INTERVAL_MS = 5000;
 const COMPLETE_DELAY_MS = 400;
 const SCAN_LINE_DURATION_MS = 1500;
 const SCANNED_WEIGHT_KG = 77.4;
@@ -44,7 +44,7 @@ export function ScanningOverlay({ onComplete }: ScanningOverlayProps) {
     );
   }, [overlayHeight, linePosition]);
 
-  // Cycles the status text every 800ms, then hands off to the parent shortly
+  // Cycles the status text every 5s, then hands off to the parent shortly
   // after the last one lands — a setTimeout array, no OCR, no external timer lib.
   useEffect(() => {
     const timeouts: ReturnType<typeof setTimeout>[] = [];
