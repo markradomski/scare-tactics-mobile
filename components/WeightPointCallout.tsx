@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   tailWrapper: {
     position: 'absolute',
-    left: 81,
+    left: 82,
     bottom: 1,
   },
 });

@@ -28,6 +28,7 @@ export const MONTHS = [
   { label: 'Oct', dayOffset: 92 },
   { label: 'Nov', dayOffset: 123 },
   { label: 'Dec', dayOffset: 153 },
+  { label: 'Jan', dayOffset: 183 },
 ] as const;
 
 function dayToX(dayOffset: number): number {

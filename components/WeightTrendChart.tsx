@@ -11,11 +11,12 @@ const GRIDLINE_ROWS = [
   { label: '76', top: 78.13, labelTop: 69.63, showLine: true },
   { label: '72', top: 144.27, labelTop: 135.77, showLine: true },
   { label: '68', top: 211.27, labelTop: 201.77, showLine: true },
-  // No line for this row — it sits too close to the separator line above
-  // the month row (styles.monthTick.top) to have its own; the label alone
-  // still reads fine against that line.
-  { label: '64', top: 278.27, labelTop: 268.77, showLine: false },
+  { label: '64', top: 278.27, labelTop: 268.77, showLine: true },
 ];
+// The y of the lowest gridline row's own line — the one sitting right above
+// the month-label row. Exported so WeightTrend.tsx can extend the vertical
+// guide line down to it instead of stopping at the data baseline.
+export const MONTH_GRIDLINE_Y = GRIDLINE_ROWS[GRIDLINE_ROWS.length - 1].top;
 // The axis spans Jul–Dec; the 20 check-ins only fill the Jul–Sep third of it
 // (see WeightTrend.tsx), leaving the rest of the year visibly blank.
 const MONTH_LABELS = MONTHS.map((month) => month.label);
@@ -26,12 +27,9 @@ const LAST_GRIDLINE_LABEL_TOP = GRIDLINE_ROWS[GRIDLINE_ROWS.length - 1].labelTop
 const MONTH_TICK_TOP = LAST_GRIDLINE_LABEL_TOP + 26;
 const MONTH_LABEL_TOP = MONTH_TICK_TOP + 10;
 const CHART_HEIGHT = MONTH_LABEL_TOP + 25;
-// Extra faint full-width reference lines: one behind each gridline row that
-// has its own line, plus one sitting just above the month-label row.
-const FAINT_LINE_TOPS = [
-  ...GRIDLINE_ROWS.filter((row) => row.showLine).map((row) => row.top),
-  MONTH_TICK_TOP - 6,
-];
+// Extra faint full-width reference lines, one behind each gridline row that
+// has its own line.
+const FAINT_LINE_TOPS = GRIDLINE_ROWS.filter((row) => row.showLine).map((row) => row.top);
 
 export type WeightTrendChartProps = {
   points: WeightTrendPoint[];
@@ -157,7 +155,7 @@ const styles = StyleSheet.create({
   baseline: {
     position: 'absolute',
     left: 12,
-    top: 260,
+    top: 294,
     width: 308,
     height: 1,
   },

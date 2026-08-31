@@ -3,7 +3,6 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { typography } from '../constants/tokens';
 import { useTheme } from '../hooks/useTheme';
 import {
-  BASELINE_Y,
   extrapolateTrendLine,
   formatWeightRange,
   PLOT_RIGHT,
@@ -12,7 +11,7 @@ import {
   weightsToPoints,
 } from '../utils/weightTrend';
 import { WeightPointCallout } from './WeightPointCallout';
-import { WeightTrendChart } from './WeightTrendChart';
+import { MONTH_GRIDLINE_Y, WeightTrendChart } from './WeightTrendChart';
 
 export type WeightTrendKind = 'up' | 'down' | 'flat';
 
@@ -129,10 +128,11 @@ export function WeightTrend({
   const extrapolatedTrendLinePath = trend === 'down' ? extrapolateTrendLine(points, PLOT_RIGHT) : undefined;
 
   // The most recent check-in (Sep 1) is the "you are here" point: guide
-  // line down to the baseline, highlight ring on the point, callout bubble
-  // sitting directly above it with its tail touching the point.
+  // line down to the month-label gridline, highlight ring on the point,
+  // callout bubble sitting directly above it with its tail touching the
+  // point.
   const latestPoint = points[points.length - 1];
-  const guideHeight = BASELINE_Y - latestPoint.cy;
+  const guideHeight = MONTH_GRIDLINE_Y + 10 - latestPoint.cy;
   const guidePosition = { left: latestPoint.cx, top: latestPoint.cy };
   const highlightPosition = { left: latestPoint.cx - 7, top: latestPoint.cy - 7 };
   // Touch the top edge of the highlight ring (radius 7), not its center —
