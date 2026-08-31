@@ -3,41 +3,56 @@ import Svg, { Circle, Line, Path } from 'react-native-svg';
 
 import { typography } from '../constants/tokens';
 import { useTheme } from '../hooks/useTheme';
+import { BASELINE_Y, MONTHS, monthTickX, type WeightTrendPoint } from '../utils/weightTrend';
 
 const CHART_WIDTH = 354;
 const GRIDLINE_ROWS = [
-  { label: '80', top: 12, labelTop: 3.5 },
-  { label: '76', top: 78.13, labelTop: 69.63 },
-  { label: '72', top: 144.27, labelTop: 135.77 },
+  { label: '80', top: 12, labelTop: 3.5, showLine: true },
+  { label: '76', top: 78.13, labelTop: 69.63, showLine: true },
+  { label: '72', top: 144.27, labelTop: 135.77, showLine: true },
+  { label: '68', top: 211.27, labelTop: 201.77, showLine: true },
+  // No line for this row — it sits too close to the separator line above
+  // the month row (styles.monthTick.top) to have its own; the label alone
+  // still reads fine against that line.
+  { label: '64', top: 278.27, labelTop: 268.77, showLine: false },
 ];
-const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
-const MONTH_TICK_X = [11.5, 62.83, 114.17, 165.5, 216.83, 268.17, 319.5];
-
-type WeightPoint = { cx: number; cy: number };
+// The axis spans Jul–Dec; the 20 check-ins only fill the Jul–Sep third of it
+// (see WeightTrend.tsx), leaving the rest of the year visibly blank.
+const MONTH_LABELS = MONTHS.map((month) => month.label);
+const MONTH_TICK_X = monthTickX();
+// The month-tick row sits below the lowest gridline row's own label, with
+// a bit of clearance, so an added row (e.g. '64') never collides with it.
+const LAST_GRIDLINE_LABEL_TOP = GRIDLINE_ROWS[GRIDLINE_ROWS.length - 1].labelTop;
+const MONTH_TICK_TOP = LAST_GRIDLINE_LABEL_TOP + 26;
+const MONTH_LABEL_TOP = MONTH_TICK_TOP + 10;
+const CHART_HEIGHT = MONTH_LABEL_TOP + 25;
+// Extra faint full-width reference lines: one behind each gridline row that
+// has its own line, plus one sitting just above the month-label row.
+const FAINT_LINE_TOPS = [
+  ...GRIDLINE_ROWS.filter((row) => row.showLine).map((row) => row.top),
+  MONTH_TICK_TOP - 6,
+];
 
 export type WeightTrendChartProps = {
-  faintPath: string;
-  faintNativeSize: { width: number; height: number };
-  faintPosition: { left: number; top: number };
-  points: WeightPoint[];
-  sparklinePath: string;
-  sparklineNativeSize: { width: number; height: number };
-  sparklinePosition: { left: number; top: number };
+  points: WeightTrendPoint[];
+  rawLinePath: string;
+  trendLinePath: string;
   sparklineColor: string;
+  // Dotted continuation of the trend line past the last data point, out to
+  // the graph's edge — an "if this keeps up" extrapolation. Optional: only
+  // some variants show it.
+  extrapolatedTrendLinePath?: string;
   guideHeight: number;
   guidePosition: { left: number; top: number };
   highlightPosition: { left: number; top: number };
 };
 
 export function WeightTrendChart({
-  faintPath,
-  faintNativeSize,
-  faintPosition,
   points,
-  sparklinePath,
-  sparklineNativeSize,
-  sparklinePosition,
+  rawLinePath,
+  trendLinePath,
   sparklineColor,
+  extrapolatedTrendLinePath,
   guideHeight,
   guidePosition,
   highlightPosition,
@@ -46,14 +61,23 @@ export function WeightTrendChart({
 
   return (
     <View style={styles.container}>
+      {FAINT_LINE_TOPS.map((top) => (
+        <View
+          key={top}
+          style={[styles.faintLine, { top, backgroundColor: colors.borderCard }]}
+        />
+      ))}
+
       {GRIDLINE_ROWS.map((row) => (
         <View key={row.label}>
-          <View
-            style={[
-              styles.gridline,
-              { top: row.top, backgroundColor: colors.borderCard },
-            ]}
-          />
+          {row.showLine ? (
+            <View
+              style={[
+                styles.gridline,
+                { top: row.top, backgroundColor: colors.borderCard },
+              ]}
+            />
+          ) : null}
           <Text
             style={[styles.axisLabel, styles.gridLabel, { top: row.labelTop, color: colors.textBody }]}
           >
@@ -78,30 +102,22 @@ export function WeightTrendChart({
         </View>
       ))}
 
-      <Svg
-        style={[styles.absolute, faintPosition]}
-        width={faintNativeSize.width}
-        height={faintNativeSize.height}
-        viewBox={`0 0 ${faintNativeSize.width} ${faintNativeSize.height}`}
-        fill="none"
-      >
-        <Path d={faintPath} stroke={colors.textAccent} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-      </Svg>
-
-      <Svg style={[styles.absolute, { left: 0, top: 0 }]} width={CHART_WIDTH} height={260} fill="none">
+      <Svg style={styles.absolute} width={CHART_WIDTH} height={BASELINE_Y} viewBox={`0 0 ${CHART_WIDTH} ${BASELINE_Y}`} fill="none">
+        <Path d={rawLinePath} stroke={colors.textBody} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
         {points.map((point, index) => (
-          <Circle key={index} cx={point.cx} cy={point.cy} r={2} fill={colors.textAccent} />
+          <Circle key={index} cx={point.cx} cy={point.cy} r={2} fill={colors.textBody} />
         ))}
-      </Svg>
-
-      <Svg
-        style={[styles.absolute, sparklinePosition]}
-        width={sparklineNativeSize.width}
-        height={sparklineNativeSize.height}
-        viewBox={`0 0 ${sparklineNativeSize.width} ${sparklineNativeSize.height}`}
-        fill="none"
-      >
-        <Path d={sparklinePath} stroke={sparklineColor} strokeWidth={4} strokeLinecap="round" />
+        <Path d={trendLinePath} stroke={sparklineColor} strokeWidth={4} strokeLinecap="round" />
+        {extrapolatedTrendLinePath ? (
+          <Path
+            d={extrapolatedTrendLinePath}
+            stroke={sparklineColor}
+            strokeWidth={4}
+            strokeLinecap="round"
+            strokeDasharray="1 8"
+            opacity={0.35}
+          />
+        ) : null}
       </Svg>
 
       <Svg style={[styles.absolute, guidePosition]} width={2} height={guideHeight}>
@@ -118,16 +134,25 @@ export function WeightTrendChart({
 const styles = StyleSheet.create({
   container: {
     width: CHART_WIDTH,
-    height: 292,
+    height: CHART_HEIGHT,
   },
   absolute: {
     position: 'absolute',
+    left: 0,
+    top: 0,
   },
   gridline: {
     position: 'absolute',
     left: 12,
     width: 308,
     height: 0.5,
+  },
+  faintLine: {
+    position: 'absolute',
+    left: 0,
+    width: CHART_WIDTH,
+    height: 0.5,
+    opacity: 0.35,
   },
   baseline: {
     position: 'absolute',
@@ -138,7 +163,7 @@ const styles = StyleSheet.create({
   },
   monthTick: {
     position: 'absolute',
-    top: 262,
+    top: MONTH_TICK_TOP,
     width: 1,
     height: 6,
   },
@@ -153,7 +178,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   monthLabel: {
-    top: 272,
+    top: MONTH_LABEL_TOP,
     width: 40,
     marginLeft: -20,
     textAlign: 'center',

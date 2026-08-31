@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import Svg, { Path } from 'react-native-svg';
 
 import { typography } from '../constants/tokens';
@@ -8,6 +10,10 @@ type WeightPointCalloutProps = {
   titleColor: string;
   body: string;
   height: number;
+  // Starts the fade-in once true — stays hidden until then. Callers gate
+  // this on the host screen's own entrance transition finishing, so the
+  // callout doesn't start fading in while the screen is still animating in.
+  visible: boolean;
 };
 
 // The callout bubble is a literal white "sticky note" in Figma regardless of
@@ -15,24 +21,33 @@ type WeightPointCalloutProps = {
 // token-bound surface.
 const BUBBLE_WHITE = '#ffffff';
 const BUBBLE_BODY_COLOR = '#6b6b75';
+const FADE_IN_DURATION_MS = 300;
 
-export function WeightPointCallout({ title, titleColor, body, height }: WeightPointCalloutProps) {
+export function WeightPointCallout({ title, titleColor, body, height, visible }: WeightPointCalloutProps) {
+  const opacity = useSharedValue(0);
+
+  useEffect(() => {
+    if (visible) {
+      opacity.value = withTiming(2, { duration: FADE_IN_DURATION_MS });
+    }
+  }, [visible, opacity]);
+
+  const fadeInStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+
   return (
-    <View style={[styles.container, { height }]}>
+    <Animated.View style={[styles.container, { height }, fadeInStyle]}>
       <View style={styles.bubble}>
-        <Text style={[styles.title, { color: titleColor }]}>{title}</Text>
+        {/* <Text style={[styles.title, { color: titleColor }]}>{title}</Text> */}
         <Text style={styles.body}>{body}</Text>
       </View>
       <View style={styles.tailWrapper}>
         <Svg width={18} height={10} viewBox="0 0 18.2268 10.2526" fill="none">
-          <Path
-            d="M1.11342 0.5H17.1134L9.11342 9.5L1.11342 0.5Z"
-            fill={BUBBLE_WHITE}
-            stroke="black"
-          />
+          <Path d="M1.11342 0.5H17.1134L9.11342 9.5L1.11342 0.5Z" fill={BUBBLE_WHITE} />
         </Svg>
       </View>
-    </View>
+    </Animated.View>
   );
 }
 
@@ -43,8 +58,8 @@ const styles = StyleSheet.create({
   bubble: {
     backgroundColor: BUBBLE_WHITE,
     borderRadius: 18,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
     gap: 3,
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 4 },
@@ -64,7 +79,7 @@ const styles = StyleSheet.create({
   },
   tailWrapper: {
     position: 'absolute',
-    left: 112,
-    bottom: 0,
+    left: 81,
+    bottom: 1,
   },
 });

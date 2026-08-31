@@ -50,7 +50,7 @@ export function DeadlinePickerSheet({ visible, onConfirm }: DeadlinePickerSheetP
 
   return (
     <View style={styles.overlay}>
-      <Animated.View entering={FadeIn.duration(200)} style={styles.scrimWrapper}>
+      <Animated.View entering={FadeIn.duration(500)} style={styles.scrimWrapper}>
         <View style={[styles.scrim, { backgroundColor: colors.surfaceCard }]} />
       </Animated.View>
 
