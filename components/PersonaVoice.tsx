@@ -17,7 +17,7 @@ export function PersonaVoice({ persona }: PersonaVoiceProps) {
   const player = useAudioPlayer(persona.voiceSample ?? null);
   const status = useAudioPlayerStatus(player);
 
-  if (!persona.voiceSample) {
+/*   if (!persona.voiceSample) {
     return (
       <View style={styles.row}>
         <View
@@ -31,7 +31,7 @@ export function PersonaVoice({ persona }: PersonaVoiceProps) {
         <Text style={[styles.label, { color: colors.textBody }]}>Voice sample coming soon</Text>
       </View>
     );
-  }
+  } */
 
   const isPlaying = status.playing;
 

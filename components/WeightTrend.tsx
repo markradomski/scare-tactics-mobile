@@ -64,7 +64,7 @@ const VARIANTS: Record<WeightTrendKind, WeightTrendVariant> = {
     // day, not a synthesized trend point.
     weightsKg: [
       78.5, 79.8, 76.5, 77.2, 76.0, 76.8, 76.2, 75.8, 76.5, 75.6,
-      76.0, 75.3, 75.9, 75.2, 75.7, 75.0, 75.5, 75.1, 75.0, 78.0,
+      76.0, 75.3, 75.9, 75.2, 75.7, 75.0, 75.5, 75.1, 75.0, 78.1,
     ],
     // Real weigh-ins don't land on a metronome — gaps of 1-8 days apart
     // instead of the default even ~3.3-day spacing, still spanning Jul 1

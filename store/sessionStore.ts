@@ -1,6 +1,6 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
-import type { WeightTrendKind } from '../components/WeightTrend';
+import type { WeightTrendKind } from "../components/WeightTrend";
 
 type SessionState = {
   matchedPersonaId: string | null;
@@ -13,11 +13,16 @@ type SessionState = {
 };
 
 export const useSessionStore = create<SessionState>((set) => ({
-  matchedPersonaId: null,
-  weighInKg: 0,
-  weightTrend: 'flat',
+  matchedPersonaId: "phil-stutz",
+  weighInKg: 78.1,
+  weightTrend: "down",
   setMatchedPersonaId: (matchedPersonaId) => set({ matchedPersonaId }),
   setWeighInKg: (weighInKg) => set({ weighInKg }),
   setWeightTrend: (weightTrend) => set({ weightTrend }),
-  clearSession: () => set({ matchedPersonaId: null, weighInKg: 0, weightTrend: 'flat' }),
+  clearSession: () =>
+    set({
+      matchedPersonaId: "phil-stutz",
+      weighInKg: 78.1,
+      weightTrend: "down",
+    }),
 }));

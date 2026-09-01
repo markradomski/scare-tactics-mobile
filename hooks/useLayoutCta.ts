@@ -90,10 +90,12 @@ export function useLayoutCta() {
       };
       break;
     case '/check-in-success':
+      // Continues on to the weight-trend chart (see Figma) rather than
+      // ending the flow here — "Done" is with the check-in, not the session.
       cta = {
         variant: 'primary',
         label: 'Done',
-        onPress: goHome,
+        onPress: () => router.push('/weight-trend'),
         footerColor: cameraColors.background,
       };
       break;

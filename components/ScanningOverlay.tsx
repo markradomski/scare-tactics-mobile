@@ -8,10 +8,10 @@ import { cameraColors, typography } from '../constants/tokens';
 import { useTheme } from '../hooks/useTheme';
 
 const SCAN_TEXTS = ['Detecting display…', 'Reading value…', 'Got it.'] as const;
-const TEXT_INTERVAL_MS = 5000;
-const COMPLETE_DELAY_MS = 400;
-const SCAN_LINE_DURATION_MS = 1500;
-const SCANNED_WEIGHT_KG = 77.4;
+const TEXT_INTERVAL_MS = 4000;
+const COMPLETE_DELAY_MS = 100;
+const SCAN_LINE_DURATION_MS = 200;
+const SCANNED_WEIGHT_KG = 78.1;
 
 type ScanningOverlayProps = {
   onComplete: (weightKg: number) => void;

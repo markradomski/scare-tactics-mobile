@@ -29,7 +29,9 @@ export default function CameraCheckInScreen() {
         // variant, same "no OCR, randomized demo value" pattern as weighInKg.
        // setWeightTrend(TREND_KINDS[Math.floor(Math.random() * TREND_KINDS.length)]);
         setWeightTrend('down');
-        router.push('/weight-trend');
+        // check-in-success sits between the scan and the trend chart (see
+        // Figma) — its own CTA continues on to /weight-trend.
+        router.push('/check-in-success');
       }}
       onTimeout={() => router.push('/check-in-fail')}
     />
