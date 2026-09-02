@@ -1,6 +1,6 @@
 import { Redirect } from 'expo-router';
 
-import { SwipeMatch } from '../components/SwipeMatch';
+import { SwipeMatch } from '../components/home-deck';
 import { useMatchedPersona } from '../hooks/useMatchedPersona';
 
 export default function MatchScreen() {

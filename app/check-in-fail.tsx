@@ -1,6 +1,6 @@
 import { Redirect, useRouter } from 'expo-router';
 
-import { CheckInFail } from '../components/CheckInFail';
+import { CheckInFail } from '../components/check-in-fail';
 import { useMatchedPersona } from '../hooks/useMatchedPersona';
 
 export default function CheckInFailScreen() {

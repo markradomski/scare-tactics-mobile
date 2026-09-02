@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import type { WeightTrendKind } from "../components/WeightTrend";
+import type { WeightTrendKind } from "../components/weight-trend";
 
 type SessionState = {
   matchedPersonaId: string | null;

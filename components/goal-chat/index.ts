@@ -1,0 +1,1 @@
+export { GoalDeadlineChat } from './GoalDeadlineChat';

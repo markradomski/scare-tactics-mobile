@@ -1,6 +1,6 @@
 import { Redirect } from 'expo-router';
 
-import { GoalDeadlineChat } from '../components/GoalDeadlineChat';
+import { GoalDeadlineChat } from '../components/goal-chat';
 import { useMatchedPersona } from '../hooks/useMatchedPersona';
 
 export default function GoalChatScreen() {

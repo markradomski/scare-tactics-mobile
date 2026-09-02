@@ -10,7 +10,7 @@ import { StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { LayoutCta } from '../components/LayoutCta';
+import { LayoutCta } from '../components/common';
 import { cameraColors } from '../constants/tokens';
 import { ThemeProvider, useTheme } from '../hooks/useTheme';
 

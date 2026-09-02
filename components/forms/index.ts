@@ -1,0 +1,1 @@
+export { GoalTextarea } from './GoalTextarea';

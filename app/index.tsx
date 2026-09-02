@@ -3,9 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { SwipeActions } from '../components/SwipeActions';
-import type { SwipeDeckCardHandle } from '../components/SwipeDeckCard';
-import { SwipeDeckCard } from '../components/SwipeDeckCard';
+import { SwipeActions, SwipeDeckCard } from '../components/home-deck';
+import type { SwipeDeckCardHandle } from '../components/home-deck';
 import { personas } from '../data/personas';
 import type { DragActionDirection, SwipeDirection } from '../hooks/useSwipeGesture';
 import { useTheme } from '../hooks/useTheme';

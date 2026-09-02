@@ -1,7 +1,7 @@
 import { Redirect, useRouter } from 'expo-router';
 
-import { CameraCheckIn } from '../components/CameraCheckIn';
-import type { WeightTrendKind } from '../components/WeightTrend';
+import { CameraCheckIn } from '../components/camera-check-in';
+import type { WeightTrendKind } from '../components/weight-trend';
 import { useMatchedPersona } from '../hooks/useMatchedPersona';
 import { useSessionStore } from '../store/sessionStore';
 

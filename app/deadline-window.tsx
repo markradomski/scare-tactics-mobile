@@ -1,6 +1,6 @@
 import { Redirect } from 'expo-router';
 
-import { GoalDeadlineNotificationWindow } from '../components/GoalDeadlineNotificationWindow';
+import { GoalDeadlineNotificationWindow } from '../components/notifications';
 import { useMatchedPersona } from '../hooks/useMatchedPersona';
 
 export default function DeadlineWindowScreen() {

@@ -1,6 +1,6 @@
 import { Redirect } from 'expo-router';
 
-import { GoalNotificationWindow } from '../components/GoalNotificationWindow';
+import { GoalNotificationWindow } from '../components/notifications';
 import { useMatchedPersona } from '../hooks/useMatchedPersona';
 
 export default function TimeWindowScreen() {

@@ -1,7 +1,7 @@
 import { Redirect, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 
-import { WeightTrend } from '../components/WeightTrend';
+import { WeightTrend } from '../components/weight-trend';
 import { useMatchedPersona } from '../hooks/useMatchedPersona';
 import { useSessionStore } from '../store/sessionStore';
 

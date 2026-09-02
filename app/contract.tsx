@@ -1,6 +1,6 @@
 import { Redirect } from 'expo-router';
 
-import { GoalDeadlineContract } from '../components/GoalDeadlineContract';
+import { GoalDeadlineContract } from '../components/contract';
 import { useMatchedPersona } from '../hooks/useMatchedPersona';
 
 export default function ContractScreen() {

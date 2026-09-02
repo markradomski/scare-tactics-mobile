@@ -1,6 +1,6 @@
 import { Redirect } from 'expo-router';
 
-import { CheckInSuccess } from '../components/CheckInSuccess';
+import { CheckInSuccess } from '../components/check-in-success';
 import { useMatchedPersona } from '../hooks/useMatchedPersona';
 import { useSessionStore } from '../store/sessionStore';
 
